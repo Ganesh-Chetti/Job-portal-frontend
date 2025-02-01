@@ -1,0 +1,32 @@
+ 
+  
+    @media (max-width: 768px) {
+        .header {
+          flex-direction: column; /* Stack items vertically on small screens */
+          align-items: center;
+          /* background-color: aqua; */
+        }
+  
+        .header-left {
+                      font-size: 420px; /* Adjust font size for smaller screens */
+                      text-align: center; /* Center text on small screens */
+                      margin-bottom: 20px; /* Add space below the header text */
+                      padding: 10px; /* Reduce padding to save space */
+                    }
+              
+                    .header-left br {
+                      display: none; /* Remove line break on smaller screens for cleaner text */
+                    }
+  
+        .header-right {
+          margin-top: 20px; /* Add space on top of the image */
+          text-align: center;
+  
+         
+        }
+  
+        img {
+          height: auto; /* Adjust image size for smaller screens */
+        }
+      }
+    
