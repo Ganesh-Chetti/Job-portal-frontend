@@ -27,10 +27,12 @@ const UserRegistrationForm = () => {
     skills: "",
     resume: null,
   });
+
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({});
   const [snackbar, setSnackbar] = useState({ open: false, message: "", severity: "info" });
 
+  // Handle input change
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -48,14 +50,25 @@ const UserRegistrationForm = () => {
     setErrors(newErrors);
   };
 
+  // Handle resume file upload
   const handleResumeUpload = (e) => {
     const file = e.target.files[0];
-    setFormData((prev) => ({ ...prev, resume: file }));
-    setErrors((prev) => ({ ...prev, resume: file ? "" : "Resume upload is required." }));
+
+    if (file) {
+      const validTypes = ["application/pdf", "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document"];
+      if (!validTypes.includes(file.type)) {
+        setErrors((prev) => ({ ...prev, resume: "Invalid format. Only PDF, DOC, or DOCX allowed." }));
+        return;
+      }
+      setFormData((prev) => ({ ...prev, resume: file }));
+      setErrors((prev) => ({ ...prev, resume: "" }));
+    }
   };
 
+  // Toggle password visibility
   const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
 
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -77,7 +90,7 @@ const UserRegistrationForm = () => {
 
       if (response.status === 201) {
         setSnackbar({ open: true, message: "Registration successful!", severity: "success" });
-        navigate('/Userlogin');
+        navigate("/Userlogin");
       }
     } catch (error) {
       const errorMessage =
@@ -90,7 +103,7 @@ const UserRegistrationForm = () => {
 
   return (
     <>
-      <AppBar position="sticky" color="primary" style={{backgroundColor: "rgb(228, 45, 64)"}}>
+      <AppBar position="sticky" color="primary" style={{ backgroundColor: "rgb(228, 45, 64)" }}>
         <Toolbar>
           <IconButton color="inherit" onClick={() => navigate("/")}>
             <HomeIcon />
@@ -119,20 +132,20 @@ const UserRegistrationForm = () => {
       >
         <Typography
           variant="h5"
-          sx={{ fontWeight: 600, mb: 2, textAlign: "center" ,animation: "colorChange 3s infinite"}}
+          sx={{ fontWeight: 600, mb: 2, textAlign: "center", animation: "colorChange 3s infinite" }}
         >
           MyElegant SignUp
         </Typography>
         <style>
-        {`
+          {`
           @keyframes colorChange {
             0% {color: rgb(71, 221, 255)}
-            50% {color:rgb(255, 151, 71); /* Change to a different color (e.g., Tomato) */}
-            75% {color:rgb(148, 141, 151);
-            100% {color:rgb(212, 55, 230);
+            50% {color:rgb(255, 151, 71);}
+            75% {color:rgb(148, 141, 151);}
+            100% {color:rgb(212, 55, 230);}
           }
         `}
-      </style>
+        </style>
 
         <form onSubmit={handleSubmit}>
           <Grid container spacing={3}>
@@ -159,10 +172,7 @@ const UserRegistrationForm = () => {
                       ? {
                           endAdornment: (
                             <InputAdornment position="end">
-                              <IconButton
-                                onClick={togglePasswordVisibility}
-                                edge="end"
-                              >
+                              <IconButton onClick={togglePasswordVisibility} edge="end">
                                 {showPassword ? <VisibilityOff /> : <Visibility />}
                               </IconButton>
                             </InputAdornment>
@@ -175,19 +185,9 @@ const UserRegistrationForm = () => {
             ))}
 
             <Grid item xs={12}>
-              <Button
-                variant="outlined"
-                component="label"
-                fullWidth
-                color={formData.resume ? "success" : "primary"}
-              >
+              <Button variant="outlined" component="label" fullWidth color={formData.resume ? "success" : "primary"}>
                 {formData.resume ? "Resume Uploaded" : "Upload Resume"}
-                <input
-                  type="file"
-                  hidden
-                  accept=".pdf,.doc,.docx"
-                  onChange={handleResumeUpload}
-                />
+                <input type="file" hidden accept=".pdf,.doc,.docx" onChange={handleResumeUpload} />
               </Button>
               {errors.resume && (
                 <Typography color="error" variant="body2">
@@ -197,21 +197,9 @@ const UserRegistrationForm = () => {
             </Grid>
 
             <Grid item xs={12} textAlign="center">
-              <Button type="submit" variant="contained" color="primary" size="large" style={{backgroundColor: "rgb(228, 45, 64)"}}>
+              <Button type="submit" variant="contained" color="primary" size="large" style={{ backgroundColor: "rgb(228, 45, 64)" }}>
                 SignUp
               </Button>
-            </Grid>
-
-            <Grid item xs={12} textAlign="center">
-              <Typography variant="body2">
-                Already a user?{" "}
-                <Button
-                  style={{ color: "blue" }}
-                  onClick={() => navigate("/Userlogin")}
-                >
-                  Login
-                </Button>
-              </Typography>
             </Grid>
           </Grid>
         </form>
@@ -223,11 +211,7 @@ const UserRegistrationForm = () => {
         onClose={() => setSnackbar({ ...snackbar, open: false })}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
       >
-        <Alert
-          onClose={() => setSnackbar({ ...snackbar, open: false })}
-          severity={snackbar.severity}
-          sx={{ width: "100%" }}
-        >
+        <Alert onClose={() => setSnackbar({ ...snackbar, open: false })} severity={snackbar.severity} sx={{ width: "100%" }}>
           {snackbar.message}
         </Alert>
       </Snackbar>
