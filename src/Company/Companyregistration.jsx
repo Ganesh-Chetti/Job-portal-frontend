@@ -125,7 +125,7 @@ const CompanyRegistrationPage = () => {
 
     try {
       const response = await axios.post(
-        "https://my-elegant-backend-api.onrender.com/company/register",
+        "https://job-portal-backend-black.vercel.app/company/register",
         formData,
         {
           headers: {

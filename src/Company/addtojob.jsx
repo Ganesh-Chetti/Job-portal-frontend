@@ -110,7 +110,7 @@ const Addtojob = () => {
         return;
       }
       const response = await axios.post(
-        "https://my-elegant-backend-api.onrender.com/jobs/createJob",
+        "https://job-portal-backend-black.vercel.app/jobs/createJob",
         jobDetails,
         {
           headers: {
@@ -119,7 +119,7 @@ const Addtojob = () => {
           },
         }
       );
-
+// https://job-portal-backend-black.vercel.app/
       if (response.status === 201 || response.status === 200) {
         setSnackbar({
           open: true,

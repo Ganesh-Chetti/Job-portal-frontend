@@ -39,7 +39,7 @@ const AppliedUser = () => {
     const fetchUsers = async () => {
       try {
         const response = await axios.get(
-          "https://my-elegant-backend-api.onrender.com/application/getApplicationByCompany",
+          "https://job-portal-backend-black.vercel.app/application/getApplicationByCompany",
           {
             headers: { Authorization:`Bearer ${token}` },
           }

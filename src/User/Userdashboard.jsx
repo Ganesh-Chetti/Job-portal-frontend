@@ -35,7 +35,7 @@ const Userdashboard = () => {
           return;
         }
         const response = await axios.get(
-          "https://my-elegant-backend-api.onrender.com/jobs/getJobsByCategory",
+          "https://job-portal-backend-black.vercel.app/jobs/getJobsByCategory",
           {
             headers: { Authorization: `Bearer ${token}` },
           }

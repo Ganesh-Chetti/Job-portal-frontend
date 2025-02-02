@@ -43,7 +43,7 @@ const Userlistedjobs = () => {
         const token = localStorage.getItem("token");
 
         const response = await axios.get(
-          `https://my-elegant-backend-api.onrender.com/jobs/getJobsByCategory?category=${category}`,
+          `https://job-portal-backend-black.vercel.app/jobs/getJobsByCategory?category=${category}`,
           {
             headers: {
               Authorization: `Bearer ${token}`, // Include the token in the request
@@ -95,7 +95,7 @@ const Userlistedjobs = () => {
       }
 
       const response = await axios.get(
-        `https://my-elegant-backend-api.onrender.com/application/user-apply/${selectedJob._id}`,
+        `https://job-portal-backend-black.vercel.app/application/user-apply/${selectedJob._id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

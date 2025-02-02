@@ -33,7 +33,7 @@ const AppliedJobsPage = () => {
         if (!authToken) {
             navigate("/Userlogin");
         }
-        const response = await axios.get("https://my-elegant-backend-api.onrender.com/application/user-appliedJobs", {
+        const response = await axios.get("https://job-portal-backend-black.vercel.app/application/user-appliedJobs", {
           headers: {
             Authorization: `Bearer ${authToken}`,
           },

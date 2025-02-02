@@ -71,7 +71,7 @@ const UserRegistrationForm = () => {
 
     try {
       const response = await axios.post(
-        "https://my-elegant-backend-api.onrender.com/users/register",
+        "https://job-portal-backend-black.vercel.app/users/register",
         formDataToSend
       );
 

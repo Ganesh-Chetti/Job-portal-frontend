@@ -44,7 +44,7 @@ const Userprofile = () => {
           throw new Error("Token is missing. Please login again.");
         }
         const response = await axios.get(
-          "https://my-elegant-backend-api.onrender.com/users/profile",
+          "https://job-portal-backend-black.vercel.app/users/profile",
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -122,7 +122,7 @@ const Userprofile = () => {
       };
 
       await axios.put(
-        "https://my-elegant-backend-api.onrender.com/users/profile",
+        "https://job-portal-backend-black.vercel.app/users/profile",
         updatedData,
         {
           headers: {

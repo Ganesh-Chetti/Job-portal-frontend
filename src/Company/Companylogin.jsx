@@ -74,7 +74,7 @@ const CompanyloginPage = () => {
 
     setIsLoading(true);
     try {
-      const response = await axios.post("https://my-elegant-backend-api.onrender.com/company/login", loginData);
+      const response = await axios.post("https://job-portal-backend-black.vercel.app/company/login", loginData);
   
       // Check status and handle token
       if (response.status === 200) {

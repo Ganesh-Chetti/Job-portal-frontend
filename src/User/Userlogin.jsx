@@ -43,7 +43,7 @@ const UserLoginPage = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post("https://my-elegant-backend-api.onrender.com/users/login", loginData);
+      const response = await axios.post("https://job-portal-backend-black.vercel.app/users/login", loginData);
 
       if (response.data) {
         const { user, token } = response.data;

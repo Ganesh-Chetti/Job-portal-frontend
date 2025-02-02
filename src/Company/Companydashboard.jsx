@@ -41,7 +41,7 @@ const CompanyDashboard = () => {
   
   const fetchJobs = async () => {
     try {
-      const response = await axios.get("https://my-elegant-backend-api.onrender.com/jobs/getJobsByCompany", {
+      const response = await axios.get("https://job-portal-backend-black.vercel.app/jobs/getJobsByCompany", {
         headers: { Authorization: `Bearer ${localStorage.getItem("authToken")}` },
       });
   
@@ -68,7 +68,7 @@ const CompanyDashboard = () => {
 
   const deleteJob = async (jobId) => {
     try {
-      const res = await axios.delete(`https://my-elegant-backend-api.onrender.com/jobs/Job/${jobId}`, {
+      const res = await axios.delete(`https://job-portal-backend-black.vercel.app/jobs/Job/${jobId}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem("authToken")} `},
       });
   
@@ -115,7 +115,7 @@ const CompanyDashboard = () => {
     console.log("Fetching job with ID:", jobId);
   
     try {
-      const res = await axios.get(`https://my-elegant-backend-api.onrender.com/jobs/getJob/${jobId}`, {
+      const res = await axios.get(`https://job-portal-backend-black.vercel.app/jobs/getJob/${jobId}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem("authToken")}` },
       });
   
