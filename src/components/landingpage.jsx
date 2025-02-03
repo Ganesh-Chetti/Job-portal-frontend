@@ -157,7 +157,7 @@ const LandingPage = () => {
           background: "linear-gradient(to right, #D4145A, #FBB03B)",
           marginBottom: "10px",
           marginTop: "-15px",
-          padding: isMobile ? "8px" : "12px",
+          // padding: isMobile ? "2px" : "6px",
         }}
       >
         <Toolbar sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
@@ -239,7 +239,9 @@ const LandingPage = () => {
       </Drawer>
 
       {/* Responsive Slider */}
-      <Carousel>
+      <Carousel style={{
+    marginTop: "25px", // Adjust the top margin to your preference
+  }}>
         {slides.map((s, i) => (
           <Carousel.Item key={i}>
             <img
