@@ -24,11 +24,15 @@ import HireHubImage from "../assets/HireHub.webp";
 const UserLoginPage = () => {
   const navigate = useNavigate();
   const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"))
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const [showPassword, setShowPassword] = useState(false);
   const [loginData, setLoginData] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState({ email: "", password: "" });
-  const [snackbar, setSnackbar] = useState({ open: false, message: "", severity: "info" });
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: "",
+    severity: "info",
+  });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -36,7 +40,10 @@ const UserLoginPage = () => {
     if (name === "email" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
       setErrors((prev) => ({ ...prev, email: "Please enter a valid email." }));
     } else if (name === "password" && value.length < 6) {
-      setErrors((prev) => ({ ...prev, password: "Password must be at least 6 characters." }));
+      setErrors((prev) => ({
+        ...prev,
+        password: "Password must be at least 6 characters.",
+      }));
     } else {
       setErrors((prev) => ({ ...prev, [name]: "" }));
     }
@@ -48,97 +55,128 @@ const UserLoginPage = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post("https://job-portal-backend-black.vercel.app/users/login", loginData);
+      const response = await axios.post(
+        "https://job-portal-backend-black.vercel.app/users/login",
+        loginData
+      );
 
       if (response.data) {
         const { user, token } = response.data;
 
         localStorage.setItem("token", token);
 
-        setSnackbar({ open: true, message: `Welcome, ${user.fullname}!`, severity: "success" });
+        setSnackbar({
+          open: true,
+          message: `Welcome, ${user.fullname}!`,
+          severity: "success",
+        });
         navigate("/Userdashboard");
       } else {
-        setSnackbar({ open: true, message: "Unexpected server response.", severity: "warning" });
+        setSnackbar({
+          open: true,
+          message: "Unexpected server response.",
+          severity: "warning",
+        });
       }
     } catch (error) {
-      const errorMessage = error.response?.status === 401
-        ? "Invalid email or password."
-        : "An error occurred while logging in. Please try again.";
+      const errorMessage =
+        error.response?.status === 401
+          ? "Invalid email or password."
+          : "An error occurred while logging in. Please try again.";
       setSnackbar({ open: true, message: errorMessage, severity: "error" });
     }
   };
 
   const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
 
-  const handleCloseSnackbar = () => setSnackbar((prev) => ({ ...prev, open: false }));
+  const handleCloseSnackbar = () =>
+    setSnackbar((prev) => ({ ...prev, open: false }));
+
+
+  const handleGuestLogin = () => {
+    // Directly store a dummy token for guest access
+    localStorage.setItem("token", "guest-token");
+    setSnackbar({ open: true, message: "Welcome, Guest!", severity: "success" });
+    navigate("/Userdashboard");
+  };
 
   return (
     <>
-      <AppBar position="sticky" color="primary" sx={{ background: "linear-gradient(to right, #D4145A, #FBB03B)" }}>
-  <Toolbar sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-    {/* Left: Home Icon, Logo, and Title */}
-    <Box sx={{ display: "flex", alignItems: "center" }}>
-      <IconButton color="inherit" onClick={() => navigate("/")}>
-        <HomeIcon fontSize={isSmallScreen ? "medium" : "large"} />
-      </IconButton>
-      <Avatar
-        src={HireHubImage}
-        sx={{
-          border: "2px solid white",
-          width: isSmallScreen ? 40 : 60,
-          height: isSmallScreen ? 40 : 60,
-          marginRight: 2,
-        }}
-      />
-      <Typography
-        variant={isSmallScreen ? "h6" : "h4"}
-        sx={{
-          fontFamily: "'Times New Roman', serif",
-          fontWeight: 700,
-          color: "white",
-          letterSpacing: 1,
-        }}
+      <AppBar
+        position="sticky"
+        color="primary"
+        sx={{ background: "linear-gradient(to right, #D4145A, #FBB03B)" }}
       >
-        HireHub
-      </Typography>
-    </Box>
+        <Toolbar
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          {/* Left: Home Icon, Logo, and Title */}
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <IconButton color="inherit" onClick={() => navigate("/")}>
+              <HomeIcon fontSize={isSmallScreen ? "medium" : "large"} />
+            </IconButton>
+            <Avatar
+              src={HireHubImage}
+              sx={{
+                border: "2px solid white",
+                width: isSmallScreen ? 40 : 60,
+                height: isSmallScreen ? 40 : 60,
+                marginRight: 2,
+              }}
+            />
+            <Typography
+              variant={isSmallScreen ? "h6" : "h4"}
+              sx={{
+                fontFamily: "'Times New Roman', serif",
+                fontWeight: 700,
+                color: "white",
+                letterSpacing: 1,
+              }}
+            >
+              HireHub
+            </Typography>
+          </Box>
 
-    {/* Right: Login & Signup Buttons */}
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: isSmallScreen ? "column" : "row", // Stack vertically on mobile
-        alignItems: "center",
-        gap: isSmallScreen ? 1 : 2, // Add spacing when stacked
-      }}
-    >
-      <Button
-        color="inherit"
-        onClick={() => navigate("/Userlogin")}
-        sx={{
-          fontSize: isSmallScreen ? "0.8rem" : "1rem",
-          width: isSmallScreen ? "100%" : "auto", // Full width on mobile
-        }}
-      >
-        Login
-      </Button>
-      <Button
-        color="inherit"
-        onClick={() => navigate("/UserRegistration")}
-        sx={{
-          fontSize: isSmallScreen ? "0.8rem" : "1rem",
-          backgroundColor: "rgb(228, 45, 64)",
-          "&:hover": {
-            backgroundColor: "rgb(200, 40, 50)",
-          },
-          width: isSmallScreen ? "100%" : "auto", // Full width on mobile
-        }}
-      >
-        SignUp
-      </Button>
-    </Box>
-  </Toolbar>
-</AppBar>
+          {/* Right: Login & Signup Buttons */}
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: isSmallScreen ? "column" : "row", // Stack vertically on mobile
+              alignItems: "center",
+              gap: isSmallScreen ? 1 : 2, // Add spacing when stacked
+            }}
+          >
+            <Button
+              color="inherit"
+              onClick={() => navigate("/Userlogin")}
+              sx={{
+                fontSize: isSmallScreen ? "0.8rem" : "1rem",
+                width: isSmallScreen ? "100%" : "auto", // Full width on mobile
+              }}
+            >
+              Login
+            </Button>
+            <Button
+              color="inherit"
+              onClick={() => navigate("/UserRegistration")}
+              sx={{
+                fontSize: isSmallScreen ? "0.8rem" : "1rem",
+                backgroundColor: "rgb(228, 45, 64)",
+                "&:hover": {
+                  backgroundColor: "rgb(200, 40, 50)",
+                },
+                width: isSmallScreen ? "100%" : "auto", // Full width on mobile
+              }}
+            >
+              SignUp
+            </Button>
+          </Box>
+        </Toolbar>
+      </AppBar>
 
       <Box
         sx={{
@@ -151,18 +189,26 @@ const UserLoginPage = () => {
           boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
         }}
       >
-        <Typography variant="h5" sx={{ fontWeight: 600, marginBottom: 2, textAlign: "center" ,animation: "colorChange 3s infinite"}}>
+        <Typography
+          variant="h5"
+          sx={{
+            fontWeight: 600,
+            marginBottom: 2,
+            textAlign: "center",
+            animation: "colorChange 3s infinite",
+          }}
+        >
           Login
         </Typography>
         <style>
-        {`
+          {`
           @keyframes colorChange {
             0% {color: rgb(71, 221, 255)}
             50% {color:rgb(255, 151, 71); /* Change to a different color (e.g., Tomato) */}
             100% {color:rgb(212, 55, 230);
           }
         `}
-      </style>
+        </style>
         <form onSubmit={handleLogin}>
           <Grid container spacing={3}>
             <Grid item xs={12}>
@@ -203,7 +249,13 @@ const UserLoginPage = () => {
               />
             </Grid>
             <Grid item xs={12} sx={{ textAlign: "center" }}>
-              <Button type="submit" variant="contained" color="primary"  sx={{backgroundColor: "rgb(228, 45, 64)"}} size="large">
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                sx={{ backgroundColor: "rgb(228, 45, 64)" }}
+                size="large"
+              >
                 Login
               </Button>
             </Grid>
@@ -219,6 +271,12 @@ const UserLoginPage = () => {
                 </Button>
               </Typography>
             </Grid>
+            {/* Guest Login */}
+            <Grid item xs={12} sx={{ textAlign: "center", marginTop: 2 }}>
+              <Button variant="outlined" color="secondary" onClick={handleGuestLogin} sx={{ width: "100%" }}>
+                Continue as Guest
+              </Button>
+            </Grid>
           </Grid>
         </form>
       </Box>
@@ -228,7 +286,11 @@ const UserLoginPage = () => {
         onClose={handleCloseSnackbar}
         anchorOrigin={{ vertical: "top", horizontal: "center" }}
       >
-        <Alert onClose={handleCloseSnackbar} severity={snackbar.severity} sx={{ width: "100%" }}>
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity={snackbar.severity}
+          sx={{ width: "100%" }}
+        >
           {snackbar.message}
         </Alert>
       </Snackbar>

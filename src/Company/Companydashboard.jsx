@@ -15,8 +15,10 @@ import {
   Menu,
   MenuItem,
   Button,
+  IconButton,
 } from "@mui/material";
 import { deepPurple } from "@mui/material/colors";
+import { Menu as MenuIcon } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Footer from "../components/footer";
@@ -30,7 +32,7 @@ const CompanyDashboard = () => {
   const navigate = useNavigate();
   const [jobs, setJobs] = useState([]);
   const [selectedJob, setSelectedJob] = useState(null);
-
+  
   useEffect(() => {
     const token = localStorage.getItem("authToken");
     if (!token) {
@@ -46,7 +48,7 @@ const CompanyDashboard = () => {
       const response = await axios.get("https://job-portal-backend-black.vercel.app/jobs/getJobsByCompany", {
         headers: { Authorization: `Bearer ${localStorage.getItem("authToken")}` },
       });
-  
+      
       if (response.status === 200) {
         setJobs(response.data.data);
       } else {
@@ -67,16 +69,16 @@ const CompanyDashboard = () => {
   };
   
   
-
+  
   const deleteJob = async (jobId) => {
     try {
       const res = await axios.delete(`https://job-portal-backend-black.vercel.app/jobs/Job/${jobId}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem("authToken")} `},
       });
-  
+      
       if (res.status === 200) {
         console.log("Job deleted successfully:", res.data.message || "Job deleted.");
-  
+        
         setJobs((prevJobs) => prevJobs.filter((job) => job._id !== jobId));
         setSelectedJob(null); 
       } else {
@@ -89,9 +91,10 @@ const CompanyDashboard = () => {
   };
   
   
-
+  
   const [anchorEl, setAnchorEl] = useState(null);
   const [openMenu, setOpenMenu] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const handleAvatarClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -102,6 +105,7 @@ const CompanyDashboard = () => {
     setOpenMenu(false);
     setAnchorEl(null);
   };
+  
 
   const handleProfileClick = () => {
     navigate("/Companyprofile");
@@ -112,7 +116,9 @@ const CompanyDashboard = () => {
     navigate("/Companylogin");
     handleMenuClose();
   };
-
+  const toggleMobileMenu = () => {
+    setMobileMenuOpen(!mobileMenuOpen); // Toggle mobile menu state
+  };
   const handleCardClick = async (jobId) => {
     console.log("Fetching job with ID:", jobId);
   
@@ -207,7 +213,7 @@ const CompanyDashboard = () => {
   return (
     <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
       {/* Navbar */}
-      <AppBar position="static" sx={{ background: "linear-gradient(to right, #D4145A, #FBB03B)" }}>
+      <AppBar position="static" sx={{ background: "linear-gradient(to right, #D4145A, #FBB03B)", padding: isMobile ? "5px" : "10px" }}>
       <Toolbar sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         {/* Left side: Avatar and HireHub text */}
         <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -215,58 +221,137 @@ const CompanyDashboard = () => {
             src={HireHubImage}
             sx={{
               border: "2px solid white",
-              width: 60,
-              height: 60,
+              width: isMobile ? 40 : 60,  // smaller on mobile
+              height: isMobile ? 40 : 60,  // smaller on mobile
               marginRight: "10px",
             }}
           />
-          <Typography variant="h4" component="div" sx={{ fontFamily: "Times New Roman" }}>
+          <Typography variant="h5" component="div" sx={{ fontFamily: "Times New Roman", fontWeight: "bold" }}>
             HireHub
           </Typography>
         </Box>
 
-        {/* Right side: Applicants button and Profile Avatar */}
+        {/* Right side: Mobile Menu for smaller screens and Profile Avatar */}
         <Box sx={{ display: "flex", alignItems: "center" }}>
-          <Button
-            color="inherit"
-            onClick={() => navigate("/applieduser")}
-            sx={{ fontFamily: "Times New Roman", fontSize: "1rem", marginRight: "10px" }}
-          >
-            Applicants
-          </Button>
-          <Avatar
-            sx={{
-              bgcolor: deepPurple[500],
-              cursor: "pointer",
-              width: isMobile ? 32 : 40,
-              height: isMobile ? 32 : 40,
-            }}
-            alt="Company Avatar"
-            onClick={handleAvatarClick}
-          >
-            <Avatar src="/broken-image.jpg" />
-          </Avatar>
+          {isMobile ? (
+            <>
+              {/* Hamburger Icon for Mobile */}
+              <IconButton color="inherit" onClick={toggleMobileMenu}>
+                <MenuIcon />
+              </IconButton>
 
-          {/* Menu for Avatar */}
-          <Menu
-            anchorEl={anchorEl}
-            open={openMenu}
-            onClose={handleMenuClose}
-            anchorOrigin={{
-              vertical: "bottom",
-              horizontal: "right",
-            }}
-            transformOrigin={{
-              vertical: "top",
-              horizontal: "right",
-            }}
-          >
-            <MenuItem onClick={handleProfileClick}>Profile</MenuItem>
-            <MenuItem onClick={handleLogoutClick}>Logout</MenuItem>
-          </Menu>
+              {/* Mobile Menu Drawer */}
+              {mobileMenuOpen && (
+                <Box
+                  sx={{
+                    position: "absolute",
+                    top: "60px",
+                    right: 0,
+                    backgroundColor: "black",
+                    padding: "15px",
+                    borderRadius: "5px",
+                    boxShadow: 2,
+                    zIndex: 10,
+                    minWidth: "200px", // Added minimum width for the mobile menu
+                    textAlign: "center", // Center text in the mobile menu
+                  }}
+                >
+                  <Button
+                    color="inherit"
+                    onClick={() => {
+                      navigate("/applieduser");
+                      setMobileMenuOpen(false);
+                    }}
+                    sx={{
+                      fontFamily: "Times New Roman",
+                      fontSize: "1rem",
+                      marginBottom: "10px",
+                      width: "100%", // Make button take up full width
+                    }}
+                  >
+                    Applicants
+                  </Button>
+                  <Button>
+                  <Avatar
+                sx={{
+                  bgcolor: deepPurple[500],
+                  cursor: "pointer",
+                  width: isMobile ? 32 : 40,
+                  height: isMobile ? 32 : 40,
+                }}
+                alt="Company Avatar"
+                onClick={handleAvatarClick}
+              >
+                <Avatar src="/broken-image.jpg" />
+              </Avatar>
+
+              {/* Menu for Avatar */}
+              <Menu
+                anchorEl={anchorEl}
+                open={openMenu}
+                onClose={handleMenuClose}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "right",
+                }}
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+              >
+                <MenuItem onClick={handleProfileClick}>Profile</MenuItem>
+                <MenuItem onClick={handleLogoutClick}>Logout</MenuItem>
+              </Menu>
+                  </Button>
+                  
+                </Box>
+              )}
+            </>
+          ) : (
+            <>
+              <Button
+                color="inherit"
+                onClick={() => navigate("/applieduser")}
+                sx={{ fontFamily: "Times New Roman", fontSize: "1rem", marginRight: "10px" }}
+              >
+                Applicants
+              </Button>
+              <Avatar
+                sx={{
+                  bgcolor: deepPurple[500],
+                  cursor: "pointer",
+                  width: isMobile ? 32 : 40,
+                  height: isMobile ? 32 : 40,
+                }}
+                alt="Company Avatar"
+                onClick={handleAvatarClick}
+              >
+                <Avatar src="/broken-image.jpg" />
+              </Avatar>
+
+              {/* Menu for Avatar */}
+              <Menu
+                anchorEl={anchorEl}
+                open={openMenu}
+                onClose={handleMenuClose}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "right",
+                }}
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "right",
+                }}
+              >
+                <MenuItem onClick={handleProfileClick}>Profile</MenuItem>
+                <MenuItem onClick={handleLogoutClick}>Logout</MenuItem>
+              </Menu>
+            </>
+          )}
         </Box>
       </Toolbar>
     </AppBar>
+
 
       {/* Main Content */}
       <Container
