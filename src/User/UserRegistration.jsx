@@ -189,7 +189,7 @@ const UserRegistrationForm = () => {
           variant="h5"
           sx={{ fontWeight: 600, mb: 2, textAlign: "center", animation: "colorChange 3s infinite" }}
         >
-          MyElegant SignUp
+          SignUp
         </Typography>
         <style>
           {`
