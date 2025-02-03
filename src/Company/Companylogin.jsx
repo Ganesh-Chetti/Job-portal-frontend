@@ -11,15 +11,21 @@ import {
   Snackbar,
   Alert,
   CircularProgress,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import HomeIcon from "@mui/icons-material/Home";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import axios from "axios";
+import Avatar from "@mui/material/Avatar";
+import HireHubImage from "../assets/HireHub.webp";
 
 const CompanyloginPage = () => {
   const navigate = useNavigate();
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm")); // Check if screen width is small
   const [loginData, setLoginData] = useState({
     companyEmail: "",
     password: "",
@@ -75,26 +81,25 @@ const CompanyloginPage = () => {
     setIsLoading(true);
     try {
       const response = await axios.post("https://job-portal-backend-black.vercel.app/company/login", loginData);
-  
+
       // Check status and handle token
       if (response.status === 200) {
         const { message, token } = response.data;
-  
+
         setOpenSnackbar(true);
         setSnackbarSeverity("success");
         setSnackbarMessage(message);
-  
+
         // Store the token
         localStorage.setItem("authToken", token);
-  
+
         // Navigate to dashboard
         navigate("/Companydashboard");
-      }  else {
-        // Handle cases where the response doesn't indicate success
+      } else {
         setOpenSnackbar(true);
         setSnackbarSeverity("error");
         setSnackbarMessage(response.data.message || "Invalid email or password.");
-    } 
+      }
     } catch (error) {
       const errorMessage =
         error.response?.status === 401 || error.response?.status === 500
@@ -122,28 +127,78 @@ const CompanyloginPage = () => {
 
   return (
     <>
-      <AppBar position="sticky" style={{backgroundColor: "rgb(228, 45, 64)"}}>
-        <Toolbar>
-          <Box sx={{ display: "flex", alignItems: "center", flexGrow: 1 }}>
-            <IconButton color="inherit" onClick={() => navigate("/")}>
-              <HomeIcon fontSize="large" />
-            </IconButton>
-            <Typography variant="h4" sx={{ flexGrow: 1,fontFamily:"Times New Roman",marginRight: 1  } }>
-              RealEstatePro
-            </Typography>
-          </Box>
-          <Button color="inherit"  onClick={() => navigate("/Companylogin")} >
-            Login
-          </Button>
-          <Button color="inherit" onClick={() => navigate("/Companyregistration")}>
-            SignUp
-          </Button>
-        </Toolbar>
-      </AppBar>
+     <AppBar position="sticky" sx={{ backgroundColor: "rgb(86, 63, 65)" }}>
+  <Toolbar sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+    <Box sx={{ display: "flex", alignItems: "center" }}>
+      <IconButton color="inherit" onClick={() => navigate("/")}>
+        <HomeIcon fontSize={isSmallScreen ? "medium" : "large"} />
+      </IconButton>
+
+      <Avatar
+        src={HireHubImage}
+        sx={{
+          border: "2px solid white",
+          width: isSmallScreen ? 40 : 60,
+          height: isSmallScreen ? 40 : 60,
+          marginRight: 2,
+        }}
+      />
+
+      <Typography
+        variant={isSmallScreen ? "h6" : "h4"}
+        sx={{
+          fontFamily: "'Times New Roman', serif",
+          fontWeight: 700,
+          color: "white",
+          letterSpacing: 1,
+        }}
+      >
+        HireHub
+      </Typography>
+    </Box>
+
+    {/* Right Side: Login and SignUp Buttons */}
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: isSmallScreen ? "column" : "row",  // Stacking vertically on small screen
+        alignItems: "center",
+        marginTop: isSmallScreen ? 2 : 0,  // Add some space between buttons on small screens
+      }}
+    >
+      <Button
+        color="inherit"
+        onClick={() => navigate("/Companylogin")}
+        sx={{
+          fontSize: isSmallScreen ? "0.8rem" : "1rem",
+          marginBottom: isSmallScreen ? 1 : 0,  // Add margin between buttons when stacked
+          marginRight: isSmallScreen ? 0 : 2,   // Adjust margin on larger screens
+        }}
+      >
+        Login
+      </Button>
+      <Button
+        color="inherit"
+        onClick={() => navigate("/Companyregistration")}
+        sx={{
+          fontSize: isSmallScreen ? "0.8rem" : "1rem",
+          backgroundColor: "rgb(228, 45, 64)",
+          "&:hover": {
+            backgroundColor: "rgb(200, 40, 50)",
+          },
+        }}
+      >
+        SignUp
+      </Button>
+    </Box>
+  </Toolbar>
+</AppBar>
+
+
 
       <Box
         sx={{
-          maxWidth: 400,
+          maxWidth: isSmallScreen ? "90%" : 400,
           margin: "50px auto",
           padding: 4,
           border: "1px solid #ddd",
@@ -154,19 +209,25 @@ const CompanyloginPage = () => {
       >
         <Typography
           variant="h5"
-          sx={{ fontWeight: 600, marginBottom: 2, textAlign: "center" ,animation: "colorChange 3s infinite",}}
+          sx={{
+            fontWeight: 600,
+            marginBottom: 2,
+            textAlign: "center",
+            animation: "colorChange 3s infinite",
+            fontSize: isSmallScreen ? "1.2rem" : "1.5rem",
+          }}
         >
           Login
         </Typography>
         <style>
-        {`
+          {`
           @keyframes colorChange {
             0% {color: rgb(71, 221, 255)}
-            50% {color:rgb(255, 151, 71); /* Change to a different color (e.g., Tomato) */}
-            100% {color:rgb(212, 55, 230);
+            50% {color:rgb(255, 151, 71);}
+            100% {color:rgb(212, 55, 230);}
           }
         `}
-      </style>
+        </style>
         <form onSubmit={handleLogin}>
           <Grid container spacing={3}>
             {/* Email */}
@@ -213,7 +274,7 @@ const CompanyloginPage = () => {
                 color="primary"
                 size="large"
                 disabled={isLoading}
-                style={{backgroundColor: "rgb(228, 45, 64)"}}
+                style={{ backgroundColor: "rgb(228, 45, 64)" }}
               >
                 {isLoading ? <CircularProgress size={24} color="inherit" /> : "Login"}
               </Button>
@@ -225,7 +286,7 @@ const CompanyloginPage = () => {
                 <Button
                   style={{ color: "blue" }}
                   onClick={() => navigate("/Companyregistration")}
-                  sx={{ textTransform: "full-size-kana", padding: 0 }}
+                  sx={{ textTransform: "none", padding: 0 }}
                 >
                   Signup
                 </Button>
@@ -234,6 +295,7 @@ const CompanyloginPage = () => {
           </Grid>
         </form>
       </Box>
+
       <Snackbar
         open={openSnackbar}
         autoHideDuration={6000}

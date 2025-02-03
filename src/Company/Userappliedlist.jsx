@@ -15,12 +15,11 @@ import {
   IconButton ,
 } from "@mui/material";
 import { deepPurple } from "@mui/material/colors";
-import HomeIcon from "@mui/icons-material/Home";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import Footer from "../components/footer";
 import axios from "axios";
 import { useTheme } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
+import HireHubImage from "../assets/HireHub.webp";
 
 const AppliedUser = () => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -77,21 +76,23 @@ const AppliedUser = () => {
     <Box>
       {/* Navbar */}
       <AppBar
-        position="static"
-        sx={{
-            background: "rgb(228, 45, 64)",
-        }}
-      >
+         position="static"  sx={{ background: "linear-gradient(to right, #D4145A, #FBB03B)" }}>
+           
         <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
-        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-      <HomeIcon 
-      fontSize="large" 
-      sx={{ cursor: "pointer" }}
-      />
-      <Typography variant="h4" sx={{ flexGrow: 1, fontFamily: "Times New Roman", }} component="div">
-      RealEstatePro
-      </Typography>
-    </Box>
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+                  <Avatar
+                    src={HireHubImage}
+                    sx={{
+                      border: "2px solid white",
+                      width: 60,
+                      height: 60,
+                      marginRight: "10px",
+                    }}
+                  />
+                  <Typography variant="h4" component="div" sx={{ fontFamily: "Times New Roman" }}>
+                    HireHub
+                  </Typography>
+                </Box>
     {/* {Avthar} */}
     <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
             <IconButton 
@@ -200,7 +201,7 @@ const AppliedUser = () => {
             <Typography
               variant="body1"
               color="textSecondary"
-              sx={{ textAlign: "center", marginTop: 4 }}
+              sx={{ textAlign: "center", marginTop: 4,marginLeft: "auto",marginRight: "auto", }}
             >
               No users have applied yet.
             </Typography>
@@ -209,7 +210,7 @@ const AppliedUser = () => {
       </Container>
 
       {/* Footer */}
-    <Footer/>
+    {/* <Footer/> */}
     </Box>
   );
 };

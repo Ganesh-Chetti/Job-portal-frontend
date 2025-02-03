@@ -21,10 +21,12 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Footer from "../components/footer";
 import company from "../assets/company.png"
+import HireHubImage from "../assets/HireHub.webp";
 
 const CompanyDashboard = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
+  // const isTablet = useMediaQuery(theme.breakpoints.down("md"));
   const navigate = useNavigate();
   const [jobs, setJobs] = useState([]);
   const [selectedJob, setSelectedJob] = useState(null);
@@ -205,52 +207,66 @@ const CompanyDashboard = () => {
   return (
     <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
       {/* Navbar */}
-      <AppBar position="static" sx={{ backgroundColor: "rgb(228, 45, 64)"}}>
-        <Toolbar sx={{ display: "flex", justifyContent: "space-between", }}>
-          <Typography variant="h4" component="div" sx={{fontFamily:"Times New Roman",}}>
-            RealEstatePro
+      <AppBar position="static" sx={{ background: "linear-gradient(to right, #D4145A, #FBB03B)" }}>
+      <Toolbar sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        {/* Left side: Avatar and HireHub text */}
+        <Box sx={{ display: "flex", alignItems: "center" }}>
+          <Avatar
+            src={HireHubImage}
+            sx={{
+              border: "2px solid white",
+              width: 60,
+              height: 60,
+              marginRight: "10px",
+            }}
+          />
+          <Typography variant="h4" component="div" sx={{ fontFamily: "Times New Roman" }}>
+            HireHub
           </Typography>
-          <Box sx={{ display: "flex", alignItems: "center" }}>
+        </Box>
+
+        {/* Right side: Applicants button and Profile Avatar */}
+        <Box sx={{ display: "flex", alignItems: "center" }}>
           <Button
             color="inherit"
             onClick={() => navigate("/applieduser")}
-            sx={{ fontFamily:"Times New Roman",fontSize:"1rem",marginRight:"10px"}}
+            sx={{ fontFamily: "Times New Roman", fontSize: "1rem", marginRight: "10px" }}
           >
             Applicants
           </Button>
-            <Avatar
-              sx={{
-                bgcolor: deepPurple[500],
-                cursor: "pointer",
-                width: isMobile ? 32 : 40,
-                height: isMobile ? 32 : 40,
-              }}
-              alt="Company Avatar"
-              onClick={handleAvatarClick}
-            >
-              <Avatar src="/broken-image.jpg" />
-            </Avatar>
+          <Avatar
+            sx={{
+              bgcolor: deepPurple[500],
+              cursor: "pointer",
+              width: isMobile ? 32 : 40,
+              height: isMobile ? 32 : 40,
+            }}
+            alt="Company Avatar"
+            onClick={handleAvatarClick}
+          >
+            <Avatar src="/broken-image.jpg" />
+          </Avatar>
 
-            {/* Menu for Avatar */}
-            <Menu
-              anchorEl={anchorEl}
-              open={openMenu}
-              onClose={handleMenuClose}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "right",
-              }}
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "right",
-              }}
-            >
-              <MenuItem onClick={handleProfileClick}>Profile</MenuItem>
-              <MenuItem onClick={handleLogoutClick}>Logout</MenuItem>
-            </Menu>
-          </Box>
-        </Toolbar>
-      </AppBar>
+          {/* Menu for Avatar */}
+          <Menu
+            anchorEl={anchorEl}
+            open={openMenu}
+            onClose={handleMenuClose}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "right",
+            }}
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "right",
+            }}
+          >
+            <MenuItem onClick={handleProfileClick}>Profile</MenuItem>
+            <MenuItem onClick={handleLogoutClick}>Logout</MenuItem>
+          </Menu>
+        </Box>
+      </Toolbar>
+    </AppBar>
 
       {/* Main Content */}
       <Container
@@ -263,64 +279,79 @@ const CompanyDashboard = () => {
           padding: 4,
         }}
       >
-        <Box>
-          <img src={company}/>
+        <Box style={{textAlign:"center"}}>
+          <img src={company} width={isMobile ? "100%" : "60%"} alt="Company" />
         </Box>
         <Typography variant="h4"
         fontWeight="bold"
         margin="15px"
+        sx={{ margin: "15px", color: "#333" }}
          >
           Welcome to the Company Dashboard
         </Typography>
-        <style>
-        {`
-          @keyframes colorChange {
-            0% {color: rgb(71, 221, 255)}
-            50% {color:rgb(255, 151, 71); /* Change to a different color (e.g., Tomato) */}
-            100% {color:rgb(212, 55, 230);
-          }
-        `}
-      </style>
+        
 
         {/* Job Cards or No Job Message */}
-        {jobs.length > 0 ? (
-          <Grid container spacing={3}>
-            {jobs.map((job) => (
-              <Grid item xs={12} sm={6} md={4} key={job._id}>
-                <Card
-                  sx={{
-                    backgroundColor:"#a5cf5d",
-                    transition: "transform 0.3s, box-shadow 0.3s",
-                    "&:hover": {
-                      transform: "scale(1.05)",
-                      boxShadow: 6,
-                      backgroundColor: "#f5f5f5",
-                      cursor: "pointer",
-                    },
-                  }}
-                  onClick={() => handleCardClick(job._id)}
-                >
-                  <CardContent>
-                    <Typography variant="h6" fontWeight="bold" gutterBottom>
-                      {job.title}
-                    </Typography>
-                    <Typography variant="body1">
-                      <strong>Category:</strong> {job.category}
-                    </Typography>
-                    <Typography variant="body1">
-                      <strong>Location:</strong> {job.location}
-                    </Typography>
-                    <Typography variant="body1">
-                      <strong>Salary:</strong> ${job.salary.toLocaleString()}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
-        ) : (
-          <Typography>No jobs available.</Typography>
-        )}
+        <Box 
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        // minHeight: "100vh",
+        width: "100%",
+        background: "linear-gradient(to right, #ff6f61, #de2d68, #9c27b0)",
+        padding: 4,
+      }}
+    >
+      {jobs.length > 0 ? (
+        <Grid container spacing={3} justifyContent="center">
+          {jobs.map((job) => (
+            <Grid item xs={12} sm={6} md={4} key={job._id}>
+              <Card
+                sx={{
+                  background: "linear-gradient(to right, #1e3c72, #2a5298)",
+                  color: "white",
+                  borderRadius: 4,
+                  boxShadow: 6,
+                  transition: "transform 0.3s ease-in-out, box-shadow 0.3s",
+                  "&:hover": {
+                    transform: "scale(1.05)",
+                    boxShadow: 10,
+                    background: "linear-gradient(to right, #3a6186, #89253e)",
+                  },
+                  padding: 2,
+                }}
+                onClick={() => handleCardClick(job._id)}
+              >
+                <CardContent>
+                  <Typography variant="h6" fontWeight="bold" gutterBottom>
+                    {job.title}
+                  </Typography>
+                  <Typography variant="body1">
+                    <strong>Category:</strong> {job.category}
+                  </Typography>
+                  <Typography variant="body1">
+                    <strong>Location:</strong> {job.location}
+                  </Typography>
+                  <Typography variant="body1">
+                    <strong>Salary:</strong> ${job.salary.toLocaleString()}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
+      ) : (
+        <Typography 
+          variant="h5" 
+          color="white" 
+          textAlign="center"
+          sx={{ fontWeight: "bold", mt: 5 }}
+        >
+          No jobs available.
+        </Typography>
+      )}
+    </Box>
         {/* Add New Job Button */}
         <Button
           variant="contained"

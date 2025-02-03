@@ -20,6 +20,8 @@ import Footer from "../components/footer";
 import logo from "../assets/user jobs.jpg";
 import job1 from "../assets/user-job1.jpg";
 import "./User.css";
+import HireHubImage from "../assets/HireHub.webp";
+import Avatar from "@mui/material/Avatar";
 
 const Userdashboard = () => {
   const navigate = useNavigate();
@@ -71,34 +73,35 @@ const Userdashboard = () => {
   return (
     <>
       <Box>
-        <AppBar position="sticky" sx={{ background: "rgb(228, 45, 64)" }}>
-          <Toolbar>
-            <Typography
-              variant="h4"
-              sx={{ flexGrow: 1, fontFamily: "Times New Roman" }}
-            >
-              RealEstatePro
+      <AppBar position="sticky" sx={{ background: "linear-gradient(to right, #D4145A, #FBB03B)" }}>
+        <Toolbar sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Avatar src={HireHubImage} sx={{ width: 50, height: 50, marginRight: 2 }} />
+            <Typography variant="h5" sx={{ fontFamily: "Times New Roman", fontWeight: 600 }}>
+              HireHub
             </Typography>
+          </Box>
+          <Box>
             <Button
               color="inherit"
               onClick={() => navigate("/listed-applied")}
-              sx={{ marginRight: { xs: 1, sm: 2, md: 3 } }}
+              sx={{
+                marginRight: { xs: 1, sm: 2, md: 3 },
+                fontSize: { xs: "0.9rem", sm: "1rem" },
+              }}
             >
               Listed U Applied
             </Button>
             <IconButton color="inherit" onClick={handleMenuOpen}>
               <AccountCircle fontSize="large" />
             </IconButton>
-            <Menu
-              anchorEl={anchorEl}
-              open={Boolean(anchorEl)}
-              onClose={() => setAnchorEl(null)}
-            >
+            <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={() => setAnchorEl(null)}>
               <MenuItem onClick={handleProfile}>Profile</MenuItem>
               <MenuItem onClick={handleLogout}>Logout</MenuItem>
             </Menu>
-          </Toolbar>
-        </AppBar>
+          </Box>
+        </Toolbar>
+      </AppBar>
         <Box
           style={{
             display: "flex",
@@ -167,98 +170,80 @@ const Userdashboard = () => {
           >
             Explore By Category
           </Typography>
-          <style>
-            {`
-            @keyframes colorChange {
-              0% { color: rgb(71, 221, 255); }
-              25% { color: rgb(237, 96, 80); }
-              50% { color: rgb(241, 145, 71); }
-              75% { color: rgb(125, 124, 123); }
-              100% { color: rgb(212, 55, 230); }
-            }
-          `}
-          </style>
-          <Grid container spacing={4}>
-            {categories.length === 0 ? (
-              <Typography variant="h6" align="center">
-                Loading categories...
+          <Grid
+  container
+  spacing={4}
+  justifyContent="center" // Centers the grid
+  sx={{ marginTop: 4 }} // Adds spacing from the top
+>
+  {categories.length === 0 ? (
+    <Typography variant="h6" align="center" sx={{ width: "100%" }}>
+      Loading categories...
+    </Typography>
+  ) : (
+    categories.map((category, index) => {
+      const categoryIcons = {
+        Digital: "🌐",
+        Operations: "🏗️",
+        HR: "👥",
+        Marketing: "📈",
+        "Sales Team": "💼",
+        Manager: "🏢",
+        "Software Engineer": "💻",
+      };
+
+      return (
+        <Grid item xs={12} sm={6} md={4} key={index}>
+          <Card
+            sx={{
+              background: "linear-gradient(135deg, #ff7e5f, #feb47b)", // Beautiful gradient background
+              borderRadius: "15px",
+              boxShadow: "0 4px 10px rgba(0,0,0,0.2)", // Soft shadow effect
+              transition: "transform 0.3s, box-shadow 0.3s",
+              "&:hover": {
+                transform: "scale(1.05)",
+                boxShadow: "0 6px 15px rgba(0,0,0,0.3)",
+                background: "linear-gradient(135deg, #ff758c, #ff7eb3)", // Hover color change
+                cursor: "pointer",
+              },
+            }}
+            onClick={() => handleCardClick(category._id)}
+          >
+            <CardContent sx={{ textAlign: "center", padding: "30px" }}>
+              <Typography
+                variant="h3"
+                sx={{
+                  fontSize: "4rem",
+                  marginBottom: "10px",
+                  display: "flex",
+                  justifyContent: "center",
+                  color: "#fff", // White icon color
+                  textShadow: "2px 2px 4px rgba(0,0,0,0.3)", // Adds text shadow for better visibility
+                }}
+              >
+                {categoryIcons[category._id] || "🔹"}
               </Typography>
-            ) : (
-              categories.map((category, index) => {
-                let icon;
+              <Typography
+                variant="h5"
+                sx={{
+                  fontFamily: "Poppins, sans-serif",
+                  fontWeight: "bold",
+                  color: "#fff",
+                  textTransform: "uppercase",
+                  letterSpacing: "1px",
+                  textShadow: "1px 1px 3px rgba(0,0,0,0.2)", // Light shadow effect for text
+                }}
+              >
+                {category._id}
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+      );
+    })
+  )}
+</Grid>
 
-                switch (category._id) {
-                  case "Digital":
-                    icon = "🌐"; // icon
-                    break;
-                  case "Operations":
-                    icon = " 🏗️";
-                    break;
-                  case "HR":
-                    icon = "👥";
-                    break;
-                  case "Marketing":
-                    icon = "📈";
-                    break;
-                  case "Sales Team":
-                    icon = " 💼";
-                    break;
-                  case "Manager":
-                    icon = "🏢";
-                    break;
-                  case "Software Engineer":
-                    icon = "💻";
-                    break;
-                  default:
-                    icon = null;
-                }
-
-                return (
-                  <Grid item xs={12} sm={6} md={4} key={index}>
-                    <Card
-                      sx={{
-                        backgroundColor: "#fca903",
-                        transition: "transform 0.3s, box-shadow 0.3s",
-                        "&:hover": {
-                          transform: "scale(1.05)",
-                          boxShadow: 6,
-                          backgroundColor: "#fcd703",
-                          color: "#000",
-                          cursor: "pointer",
-                        },
-                      }}
-                      onClick={() => handleCardClick(category._id)}
-                    >
-                      <CardContent>
-                        <Typography
-                          variant="body2"
-                          color="#fff"
-                          sx={{
-                            fontSize: "3rem",
-                            display: "flex",
-                            justifyContent: "center",
-                          }}
-                        >
-                          {icon}
-                        </Typography>
-                        <Typography
-                          variant="h4"
-                          gutterBottom
-                          sx={{
-                            fontFamily: "Times New Roman",
-                            textAlign: "center",
-                            color: "#fff",
-                          }}
-                        >
-                          {category._id}
-                        </Typography>
-                      </CardContent>
-                    </Card>
-                  </Grid>
-                );
-              })
-            )}
-          </Grid>
           <Box>
             <Box>
               <Typography
@@ -277,20 +262,20 @@ const Userdashboard = () => {
             <Box
               sx={{
                 display: "flex",
-                flexDirection: { xs: "column", sm: "row" }, // Column layout for small screens
-                alignItems: "center", // Center align items for smaller screens
-                gap: { xs: 2, sm: 4 }, // Add spacing between elements
+                flexDirection: { xs: "column", sm: "row" }, 
+                alignItems: "center", 
+                gap: { xs: 2, sm: 4 }, 
               }}
             >
               <Box
                 sx={{
-                  textAlign: { xs: "center", sm: "left" }, // Center align text for smaller screens
+                  textAlign: { xs: "center", sm: "left" }, 
                 }}
               >
                 <Typography
                   sx={{
-                    fontSize: { xs: "18px", sm: "21px" }, // Adjust font size for smaller screens
-                    marginTop: { xs: "20px", sm: "50px" }, // Reduce top margin for smaller screens
+                    fontSize: { xs: "18px", sm: "21px" },
+                    marginTop: { xs: "20px", sm: "50px" }, 
                   }}
                 >
                   We help you unlock opportunities by connecting job seekers
@@ -303,15 +288,15 @@ const Userdashboard = () => {
               </Box>
               <Box
                 sx={{
-                  textAlign: { xs: "center", sm: "right" }, // Center align image for smaller screens
+                  textAlign: { xs: "center", sm: "right" }, 
                 }}
               >
                 <img
                   src={job1}
                   alt="Job Opportunities"
                   style={{
-                    // Ensure the image scales within the container
-                    height: "auto", // Maintain aspect ratio
+                    
+                    height: "auto", 
                   }}
                 />
               </Box>

@@ -10,13 +10,19 @@ import {
   Toolbar,
   Snackbar,
   Alert,
+  useMediaQuery,
+  Avatar,
+  useTheme,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import HomeIcon from "@mui/icons-material/Home";
 import axios from "axios";
+import HireHubImage from "../assets/HireHub.webp";
 
 const CompanyRegistrationPage = () => {
   const navigate = useNavigate();
+  const theme = useTheme();
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
   const [formData, setFormData] = useState({
     companyName: "",
     companyEmail: "",
@@ -184,38 +190,79 @@ const CompanyRegistrationPage = () => {
 
   return (
     <>
-      <AppBar
-        position="sticky"
-        color="primary"
-        style={{ backgroundColor: "rgb(228, 45, 64)" }}
-      >
-        <Toolbar>
-          <Box sx={{ display: "flex", alignItems: "center", flexGrow: 1 }}>
+      <AppBar position="sticky" sx={{ backgroundColor: "rgb(86, 63, 65)" }}>
+        <Toolbar
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <Box sx={{ display: "flex", alignItems: "center" }}>
             <IconButton color="inherit" onClick={() => navigate("/")}>
-              <HomeIcon fontSize="large" />
+              <HomeIcon fontSize={isSmallScreen ? "medium" : "large"} />
             </IconButton>
-            <Typography
-              variant="h4"
+
+            <Avatar
+              src={HireHubImage}
               sx={{
-                marginRight: 1,
-                flexGrow: 1,
-                fontFamily: "Times New Roman",
+                border: "2px solid white",
+                width: isSmallScreen ? 40 : 60,
+                height: isSmallScreen ? 40 : 60,
+                marginRight: 2,
+              }}
+            />
+
+            <Typography
+              variant={isSmallScreen ? "h5" : "h4"}
+              sx={{
+                fontFamily: "'Times New Roman', serif",
+                fontWeight: 700,
+                color: "white",
+                letterSpacing: 1,
               }}
             >
-              RealEstatePro
+              HireHub
             </Typography>
           </Box>
-          <Button color="inherit" onClick={() => navigate("/Companylogin")}>
-            Login
-          </Button>
-          <Button
-            color="inherit"
-            onClick={() => navigate("/Companyregistration")}
+
+          {/* Right Side: Login and SignUp Buttons */}
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: isSmallScreen ? "column" : "row", // Stacking vertically on small screen
+              alignItems: "center",
+              marginTop: isSmallScreen ? 2 : 0, // Add some space between buttons on small screens
+            }}
           >
-            SignUp
-          </Button>
+            <Button
+              color="inherit"
+              onClick={() => navigate("/Companylogin")}
+              sx={{
+                fontSize: isSmallScreen ? "0.8rem" : "1rem",
+                marginBottom: isSmallScreen ? 1 : 0, // Add margin between buttons when stacked
+                marginRight: isSmallScreen ? 0 : 2, // Adjust margin on larger screens
+              }}
+            >
+              Login
+            </Button>
+            <Button
+              color="inherit"
+              onClick={() => navigate("/Companyregistration")}
+              sx={{
+                fontSize: isSmallScreen ? "0.8rem" : "1rem",
+                backgroundColor: "rgb(228, 45, 64)",
+                "&:hover": {
+                  backgroundColor: "rgb(200, 40, 50)",
+                },
+              }}
+            >
+              SignUp
+            </Button>
+          </Box>
         </Toolbar>
       </AppBar>
+
       <Box
         sx={{
           maxWidth: 600,

@@ -1,4 +1,3 @@
-
 import { Box, Grid, Typography } from '@mui/material';
 import { Facebook, Twitter, Instagram, LinkedIn, LocationOn, Email, Phone } from '@mui/icons-material';
 
@@ -10,8 +9,7 @@ const Footer = () => {
         color: "#fff",
         py: 4,
         px: 2,
-        mt:"70px",
-    
+        mt: "70px",
         width: "100%",
       }}
     >
@@ -26,9 +24,9 @@ const Footer = () => {
           <Typography variant="h6" sx={{ fontWeight: "bold", mb: 2 }}>
             Company Details
           </Typography>
-          <Typography>RealEstate Co.</Typography>
-          <Typography>Building Dreams, One Home at a Time.</Typography>
-          <Typography>www.realestate.com</Typography>
+          <Typography>HireHub Co.</Typography>
+          <Typography>Building Dreams, Achieving Dreams.</Typography>
+          <Typography>www.hirehub.com</Typography>
         </Grid>
 
         {/* Contact Info */}
@@ -37,13 +35,13 @@ const Footer = () => {
             Contact Info
           </Typography>
           <Box display="flex" alignItems="center" mb={1}>
-            <LocationOn sx={{ mr: 1 }} /> <Typography>123 RealEstate Ave, City, Country</Typography>
+            <LocationOn sx={{ mr: 1 }} /> <Typography>123 HireHub , Hyderabad, India</Typography>
           </Box>
           <Box display="flex" alignItems="center" mb={1}>
-            <Email sx={{ mr: 1 }} /> <Typography>contact@realestate.com</Typography>
+            <Email sx={{ mr: 1 }} /> <Typography>contact@hirehub.com</Typography>
           </Box>
           <Box display="flex" alignItems="center" mb={1}>
-            <Phone sx={{ mr: 1 }} /> <Typography>+1 234-567-8900</Typography>
+            <Phone sx={{ mr: 1 }} /> <Typography>+91 987-654-3210</Typography>
           </Box>
         </Grid>
 
@@ -94,7 +92,7 @@ const Footer = () => {
       </Grid>
 
       <Typography variant="body2" sx={{ mt: 2, textAlign: "center" }}>
-        © {new Date().getFullYear()} Real Estate Inc. All rights reserved.
+        © {new Date().getFullYear()} HireHub Inc. All rights reserved.
       </Typography>
     </Box>
   );
