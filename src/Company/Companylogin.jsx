@@ -127,7 +127,7 @@ const CompanyloginPage = () => {
 
   return (
     <>
-     <AppBar position="sticky" sx={{ backgroundColor: "rgb(86, 63, 65)" }}>
+     <AppBar position="sticky" sx={{ background: "linear-gradient(to right, #D4145A, #FBB03B)" }}>
   <Toolbar sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
     <Box sx={{ display: "flex", alignItems: "center" }}>
       <IconButton color="inherit" onClick={() => navigate("/")}>

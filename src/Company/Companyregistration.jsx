@@ -190,7 +190,7 @@ const CompanyRegistrationPage = () => {
 
   return (
     <>
-      <AppBar position="sticky" sx={{ backgroundColor: "rgb(86, 63, 65)" }}>
+      <AppBar position="sticky" sx={{ background: "linear-gradient(to right, #D4145A, #FBB03B)" }}>
         <Toolbar
           sx={{
             display: "flex",
@@ -214,7 +214,7 @@ const CompanyRegistrationPage = () => {
             />
 
             <Typography
-              variant={isSmallScreen ? "h5" : "h4"}
+              variant={isSmallScreen ? "h6" : "h4"}
               sx={{
                 fontFamily: "'Times New Roman', serif",
                 fontWeight: 700,

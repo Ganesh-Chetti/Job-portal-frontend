@@ -200,7 +200,7 @@ const AppliedJobsPage = () => {
         <Card
           key={ind}
           sx={{
-            background: "linear-gradient(to right, #FFD700, #FF8C00)",
+            background: "#C8E6C9",
             color: "black",
             boxShadow: 3,
             borderRadius: 3,
@@ -209,6 +209,7 @@ const AppliedJobsPage = () => {
             "&:hover": {
               transform: "scale(1.05)",
               boxShadow: 5,
+              background: "#81C784",
             },
           }}
         >

@@ -351,7 +351,7 @@ const Userprofile = () => {
             />
           </Box>
 
-          <Box>
+          <Box sx={{ width: "100%", maxWidth: 400, margin: "auto" }}>
             <Typography variant="subtitle1" gutterBottom>
               Upload Resume
             </Typography>
@@ -360,8 +360,24 @@ const Userprofile = () => {
               component="label"
               fullWidth
               color={resume ? "success" : "primary"}
+              sx={{
+                textTransform: "none",
+                display: "flex",
+                justifyContent: "space-between",
+                overflow: "hidden",
+                whiteSpace: "nowrap",
+                textOverflow: "ellipsis",
+              }}
             >
-              {resume ? `Uploaded: ${resume}` : "Upload Resume"}
+              {/* Truncate long filenames */}
+              {resume
+                ? `Uploaded: ${
+                    resume.length > 20
+                      ? resume.substring(0, 20) + "..."
+                      : resume
+                  }`
+                : "Upload Resume"}
+
               <input
                 type="file"
                 hidden

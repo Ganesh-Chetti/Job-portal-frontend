@@ -12,8 +12,13 @@ import {
   CardContent,
   Box,
   Button,
+  Drawer,
+  List,
+  ListItem,
+  ListItemText,
 } from "@mui/material";
-import { AccountCircle } from "@mui/icons-material";
+// import { Menu as MenuIcon, AccountCircle } from "@mui/icons-material";
+import {Menu as MenuIcon, AccountCircle } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Footer from "../components/footer";
@@ -26,6 +31,7 @@ import Avatar from "@mui/material/Avatar";
 const Userdashboard = () => {
   const navigate = useNavigate();
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
@@ -69,25 +75,44 @@ const Userdashboard = () => {
   const handleCardClick = (categoryName) => {
     navigate(`/getJobsByCategory/${categoryName}`);
   };
+  const handleMenuClose = () => setAnchorEl(null);
 
   return (
     <>
       <Box>
-      <AppBar position="sticky" sx={{ background: "linear-gradient(to right, #D4145A, #FBB03B)" }}>
+      <AppBar
+        position="sticky"
+        sx={{
+          background: "linear-gradient(to right, #D4145A, #FBB03B)",
+          padding: { xs: "8px", sm: "12px" },
+        }}
+      >
         <Toolbar sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          {/* Logo & Title */}
           <Box sx={{ display: "flex", alignItems: "center" }}>
-            <Avatar src={HireHubImage} sx={{ width: 50, height: 50, marginRight: 2 }} />
-            <Typography variant="h5" sx={{ fontFamily: "Times New Roman", fontWeight: 600 }}>
+            <Avatar src={HireHubImage} sx={{ width: 50, height: 50, marginRight: 1 }} />
+            <Typography
+              variant="h6"
+              sx={{
+                fontFamily: "Times New Roman",
+                fontWeight: 600,
+                fontSize: { xs: "1.2rem", sm: "1.5rem" },
+              }}
+            >
               HireHub
             </Typography>
           </Box>
-          <Box>
+
+          {/* Desktop Navigation (Hidden on Mobile) */}
+          <Box sx={{ display: { xs: "none", sm: "flex" }, alignItems: "center" }}>
             <Button
               color="inherit"
               onClick={() => navigate("/listed-applied")}
               sx={{
-                marginRight: { xs: 1, sm: 2, md: 3 },
-                fontSize: { xs: "0.9rem", sm: "1rem" },
+                marginRight: 2,
+                fontSize: "1rem",
+                transition: "0.3s",
+                "&:hover": { color: "#ffeb3b" },
               }}
             >
               Listed U Applied
@@ -95,13 +120,41 @@ const Userdashboard = () => {
             <IconButton color="inherit" onClick={handleMenuOpen}>
               <AccountCircle fontSize="large" />
             </IconButton>
-            <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={() => setAnchorEl(null)}>
-              <MenuItem onClick={handleProfile}>Profile</MenuItem>
-              <MenuItem onClick={handleLogout}>Logout</MenuItem>
-            </Menu>
           </Box>
+
+          {/* Mobile Menu Button (Shown on Mobile) */}
+          <IconButton
+            sx={{ display: { xs: "flex", sm: "none" } }}
+            color="inherit"
+            onClick={() => setMobileOpen(true)}
+          >
+            <MenuIcon fontSize="large" />
+          </IconButton>
         </Toolbar>
       </AppBar>
+
+      {/* Mobile Drawer (Right Side) */}
+      <Drawer anchor="right" open={mobileOpen} onClose={() => setMobileOpen(false)}>
+        <Box sx={{ width: 250, padding: "20px" }}>
+          <List>
+            <ListItem button onClick={() => navigate("/listed-applied")}>
+              <ListItemText primary="Listed U Applied" />
+            </ListItem>
+            <ListItem button onClick={handleProfile}>
+              <ListItemText primary="Profile" />
+            </ListItem>
+            <ListItem button onClick={handleLogout}>
+              <ListItemText primary="Logout" />
+            </ListItem>
+          </List>
+        </Box>
+      </Drawer>
+
+      {/* Account Dropdown Menu */}
+      <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
+        <MenuItem onClick={handleProfile}>Profile</MenuItem>
+        <MenuItem onClick={handleLogout}>Logout</MenuItem>
+      </Menu>
         <Box
           style={{
             display: "flex",
@@ -196,14 +249,14 @@ const Userdashboard = () => {
         <Grid item xs={12} sm={6} md={4} key={index}>
           <Card
             sx={{
-              background: "linear-gradient(135deg, #ff7e5f, #feb47b)", // Beautiful gradient background
+              background: "#6f7885", // Beautiful gradient background
               borderRadius: "15px",
               boxShadow: "0 4px 10px rgba(0,0,0,0.2)", // Soft shadow effect
               transition: "transform 0.3s, box-shadow 0.3s",
               "&:hover": {
                 transform: "scale(1.05)",
                 boxShadow: "0 6px 15px rgba(0,0,0,0.3)",
-                background: "linear-gradient(135deg, #ff758c, #ff7eb3)", // Hover color change
+                background: "#343d4d", // Hover color change
                 cursor: "pointer",
               },
             }}

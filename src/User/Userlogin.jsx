@@ -74,7 +74,7 @@ const UserLoginPage = () => {
 
   return (
     <>
-      <AppBar position="sticky" color="primary" sx={{ backgroundColor: "rgb(86, 63, 65)" }}>
+      <AppBar position="sticky" color="primary" sx={{ background: "linear-gradient(to right, #D4145A, #FBB03B)" }}>
   <Toolbar sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
     {/* Left: Home Icon, Logo, and Title */}
     <Box sx={{ display: "flex", alignItems: "center" }}>

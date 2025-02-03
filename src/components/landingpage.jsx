@@ -11,6 +11,7 @@ import {
   Paper,
   useMediaQuery,
   Card,
+  Drawer, List, ListItem, ListItemText 
 } from "@mui/material";
 import {
   LocationOn,
@@ -21,6 +22,7 @@ import {
   Instagram,
   LinkedIn,
 } from "@mui/icons-material";
+import { Menu as MenuIcon } from '@mui/icons-material';
 import { useTheme } from "@mui/material/styles";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
 import "slick-carousel/slick/slick.css";
@@ -35,6 +37,10 @@ const LandingPage = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  // const isMobile = window.innerWidth <= 600;
+  const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
+
 
   const handleChange = (step) => {
     setCurrentIndex(
@@ -147,56 +153,90 @@ const LandingPage = () => {
       {/* Navbar */}
       <AppBar
         position="sticky"
-        style={{
-          backgroundColor: "rgb(86, 63, 65)",
+        sx={{
+          background: "linear-gradient(to right, #D4145A, #FBB03B)",
           marginBottom: "10px",
           marginTop: "-15px",
+          padding: isMobile ? "8px" : "12px",
         }}
       >
-        <Toolbar>
-          <Avatar
-            src={HireHubImage}
-            sx={{
-              border: "2px solid white",
-              width: 60,
-              height: 60,
-              marginRight: "10px",
-            }}
-          />
-
-          <Typography
-            variant="h4"
-            sx={{ flexGrow: 1, fontFamily: "Times New Roman" }}
-          >
-            HireHub
-          </Typography>
-          {isMobile ? (
-            <Box
+        <Toolbar sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          {/* Logo and Title */}
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Avatar
+              src={HireHubImage}
               sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
+                border: "2px solid white",
+                width: isMobile ? 50 : 60,
+                height: isMobile ? 50 : 60,
+                marginRight: isMobile ? "8px" : "10px",
+              }}
+            />
+            <Typography
+              variant={isMobile ? "h5" : "h4"}
+              sx={{
+                fontFamily: "Times New Roman",
+                fontWeight: 600,
+                flexGrow: 1,
+                fontSize: isMobile ? "1.2rem" : "1.5rem",
               }}
             >
-              <Button color="inherit" onClick={() => navigate("/Companylogin")}>
-                Become a Partner
-              </Button>
-              <Button color="inherit" onClick={() => navigate("/Userlogin")}>
-                Apply for Job
-              </Button>
-            </Box>
+              HireHub
+            </Typography>
+          </Box>
+
+          {/* Hamburger Menu for Mobile */}
+          {isMobile ? (
+            <IconButton color="inherit" onClick={toggleMobileMenu}>
+              <MenuIcon />
+            </IconButton>
           ) : (
             <Box sx={{ display: "flex", gap: 2 }}>
-              <Button color="inherit" onClick={() => navigate("/Companylogin")}>
+              <Button
+                color="inherit"
+                onClick={() => navigate("/Companylogin")}
+                sx={{
+                  fontSize: isMobile ? "0.8rem" : "1rem",
+                  padding: isMobile ? "8px 12px" : "10px 16px",
+                  "&:hover": { backgroundColor: "#ff5722" },
+                }}
+              >
                 Become a Partner
               </Button>
-              <Button color="inherit" onClick={() => navigate("/Userlogin")}>
+              <Button
+                color="inherit"
+                onClick={() => navigate("/Userlogin")}
+                sx={{
+                  fontSize: isMobile ? "0.8rem" : "1rem",
+                  padding: isMobile ? "8px 12px" : "10px 16px",
+                  "&:hover": { backgroundColor: "#ff5722" },
+                }}
+              >
                 Apply for Job
               </Button>
             </Box>
           )}
         </Toolbar>
       </AppBar>
+
+      {/* Mobile Drawer (Hamburger Menu) */}
+      <Drawer
+        anchor="right"
+        open={isMobileMenuOpen}
+        onClose={toggleMobileMenu}
+        sx={{ display: { xs: 'block', sm: 'none' } }}
+      >
+        <Box sx={{ width: 250 }}>
+          <List>
+            <ListItem button onClick={() => { navigate("/Companylogin"); toggleMobileMenu(); }}>
+              <ListItemText primary="Become a Partner" />
+            </ListItem>
+            <ListItem button onClick={() => { navigate("/Userlogin"); toggleMobileMenu(); }}>
+              <ListItemText primary="Apply for Job" />
+            </ListItem>
+          </List>
+        </Box>
+      </Drawer>
 
       {/* Responsive Slider */}
       <Carousel>
@@ -205,12 +245,18 @@ const LandingPage = () => {
             <img
               src={s.image}
               alt={`Slide ${i + 1}`}
-              style={{ width: "100%", height: isMobile ? "50vh" : "80vh" }}
+              style={{
+                width: "100%",
+                height: isMobile ? "50vh" : "80vh",
+                objectFit: "cover", // Ensures the image covers the area without distortion.
+              }}
             />
             <Carousel.Caption
               style={{
-                fontSize: isMobile ? "1.2rem" : "2rem",
+                fontSize: isMobile ? "0.7rem" : "2rem",
                 color: "#a82546",
+                fontWeight: "bold",
+                textShadow: "2px 2px 4px rgba(0, 0, 0, 0.7)",
               }}
             >
               {s.text.toUpperCase()}

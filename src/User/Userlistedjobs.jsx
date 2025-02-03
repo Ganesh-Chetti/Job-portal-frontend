@@ -19,12 +19,16 @@ import {
   Box,
   Snackbar,
   Alert,
+  Avatar,
+  Drawer,
+  List,
+  ListItem,
+  ListItemText,
 } from "@mui/material";
-import { AccountCircle } from "@mui/icons-material";
-import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
+import { Menu as MenuIcon, AccountCircle, ArrowCircleLeft } from "@mui/icons-material";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-// import Footer from "../components/footer";
+import HireHubImage from "../assets/HireHub.webp";
 
 const Userlistedjobs = () => {
   const { category } = useParams();
@@ -35,6 +39,7 @@ const Userlistedjobs = () => {
   const [loading, setLoading] = useState(true);
   const [selectedJob, setSelectedJob] = useState(null);
   const [applySuccess, setApplySuccess] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -65,7 +70,8 @@ const Userlistedjobs = () => {
 
     fetchData();
   }, [category]);
-
+  const handleMenuClose = () => setAnchorEl(null);
+ 
   const handleMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -124,50 +130,91 @@ const Userlistedjobs = () => {
       {/* Navbar */}
       <AppBar
         position="sticky"
-        color="primary"
-        sx={{ background: "rgb(228, 45, 64)" }}
+        sx={{
+          background: "linear-gradient(to right, #D4145A, #FBB03B)",
+          padding: { xs: "8px", sm: "12px" },
+        }}
       >
-        <Toolbar>
-          <Typography
-            variant="h4"
-            sx={{
-              flexGrow: 1,
-              textAlign: "left",
-              fontFamily: "Times New Roman",
-            }}
-          >
-            RealEstatePro
-          </Typography>
+        <Toolbar sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          {/* Logo & Title */}
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Avatar src={HireHubImage} sx={{ width: 50, height: 50, marginRight: 1 }} />
+            <Typography
+              variant="h6"
+              sx={{
+                fontFamily: "Times New Roman",
+                fontWeight: 600,
+                fontSize: { xs: "1.2rem", sm: "1.5rem" },
+              }}
+            >
+              HireHub
+            </Typography>
+          </Box>
 
+          {/* Desktop Navigation (Hidden on Mobile) */}
+          <Box sx={{ display: { xs: "none", sm: "flex" }, alignItems: "center" }}>
+            <IconButton
+              color="inherit"
+              onClick={() => navigate(-1)} // back arrow functionality
+              sx={{ marginRight: 2 }}
+            >
+              <ArrowCircleLeft fontSize="large" />
+            </IconButton>
+
+            <Button
+              color="inherit"
+              onClick={() => navigate("/listed-applied")}
+              sx={{
+                marginRight: 2,
+                fontSize: "1rem",
+                transition: "0.3s",
+                "&:hover": { color: "#ffeb3b" },
+              }}
+            >
+              Listed U Applied
+            </Button>
+            <IconButton color="inherit" onClick={handleMenuOpen}>
+              <AccountCircle fontSize="large" />
+            </IconButton>
+          </Box>
+
+          {/* Mobile Menu Button (Shown on Mobile) */}
           <IconButton
+            sx={{ display: { xs: "flex", sm: "none" } }}
             color="inherit"
-            onClick={() => navigate(-1)}
-            sx={{ marginRight: 1 }}
+            onClick={() => setMobileOpen(true)}
           >
-            <ArrowCircleLeftIcon fontSize="large" />
+            <MenuIcon fontSize="large" />
           </IconButton>
-
-          <Button
-            color="inherit"
-            onClick={() => navigate("/listed-applied")}
-            sx={{ marginRight: 2 }}
-          >
-            Listed U Applied
-          </Button>
-
-          <IconButton color="inherit" onClick={handleMenuOpen}>
-            <AccountCircle fontSize="large" />
-          </IconButton>
-          <Menu
-            anchorEl={anchorEl}
-            open={Boolean(anchorEl)}
-            onClose={() => setAnchorEl(null)}
-          >
-            <MenuItem onClick={handleProfile}>Profile</MenuItem>
-            <MenuItem onClick={handleLogout}>Logout</MenuItem>
-          </Menu>
         </Toolbar>
       </AppBar>
+
+      {/* Mobile Drawer (Right Side) */}
+      <Drawer anchor="right" open={mobileOpen} onClose={() => setMobileOpen(false)}>
+        <Box sx={{ width: 250, padding: "20px" }}>
+          <List>
+            <ListItem button onClick={() => navigate(-1)}>
+              <ArrowCircleLeft sx={{ marginRight: 1 }} />
+              <ListItemText primary="Go Back" />
+            </ListItem>
+            <ListItem button onClick={() => navigate("/listed-applied")}>
+              <ListItemText primary="Listed U Applied" />
+            </ListItem>
+            <ListItem button onClick={handleProfile}>
+              <ListItemText primary="Profile" />
+            </ListItem>
+            <ListItem button onClick={handleLogout}>
+              <ListItemText primary="Logout" />
+            </ListItem>
+          </List>
+        </Box>
+      </Drawer>
+
+      {/* Account Dropdown Menu */}
+      <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
+        <MenuItem onClick={handleProfile}>Profile</MenuItem>
+        <MenuItem onClick={handleLogout}>Logout</MenuItem>
+      </Menu>
 
       {/* Page Content */}
       <Container sx={{ my: 4 }}>
