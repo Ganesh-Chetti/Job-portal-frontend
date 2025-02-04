@@ -18,7 +18,7 @@ import {
   ListItemText,
 } from "@mui/material";
 // import { Menu as MenuIcon, AccountCircle } from "@mui/icons-material";
-import {Menu as MenuIcon, AccountCircle } from "@mui/icons-material";
+import { Menu as MenuIcon, AccountCircle } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Footer from "../components/footer";
@@ -80,81 +80,111 @@ const Userdashboard = () => {
   return (
     <>
       <Box>
-      <AppBar
-        position="sticky"
-        sx={{
-          background: "linear-gradient(to right, #D4145A, #FBB03B)",
-          padding: { xs: "8px", sm: "12px" },
-        }}
-      >
-        <Toolbar sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          {/* Logo & Title */}
-          <Box sx={{ display: "flex", alignItems: "center" }}>
-            <Avatar src={HireHubImage} sx={{ width: 50, height: 50, marginRight: 1 }} />
-            <Typography
-              variant="h6"
-              sx={{
-                fontFamily: "Times New Roman",
-                fontWeight: 600,
-                fontSize: { xs: "1.2rem", sm: "1.5rem" },
-              }}
-            >
-              HireHub
-            </Typography>
-          </Box>
-
-          {/* Desktop Navigation (Hidden on Mobile) */}
-          <Box sx={{ display: { xs: "none", sm: "flex" }, alignItems: "center" }}>
-            <Button
-              color="inherit"
-              onClick={() => navigate("/listed-applied")}
-              sx={{
-                marginRight: 2,
-                fontSize: "1rem",
-                transition: "0.3s",
-                "&:hover": { color: "#ffeb3b" },
-              }}
-            >
-              Listed U Applied
-            </Button>
-            <IconButton color="inherit" onClick={handleMenuOpen}>
-              <AccountCircle fontSize="large" />
-            </IconButton>
-          </Box>
-
-          {/* Mobile Menu Button (Shown on Mobile) */}
-          <IconButton
-            sx={{ display: { xs: "flex", sm: "none" } }}
-            color="inherit"
-            onClick={() => setMobileOpen(true)}
+        <AppBar
+          position="sticky"
+          sx={{
+            background: "linear-gradient(to right, #D4145A, #FBB03B)",
+          }}
+        >
+          <Toolbar
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
           >
-            <MenuIcon fontSize="large" />
-          </IconButton>
-        </Toolbar>
-      </AppBar>
+            {/* Logo & Title */}
+            <Box sx={{ display: "flex", alignItems: "center" }}>
+              <Avatar
+                src={HireHubImage}
+                sx={{
+                  border: "0px solid white",
+                  boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                  borderRadius: "30%",
+                  width: { xs: 42, sm: 44 },
+                  height: { xs: 42, sm: 44 },
+                  marginRight: { xs: "8px", sm: "10px" },
+                  transition: "0.3s ease-in-out",
+                  "&:hover": {
+                    transform: "scale(1.05)",
+                    boxShadow: "0px 6px 10px rgba(0, 0, 0, 0.15)",
+                  },
+                }}
+              />
+              <Typography
+                variant="h6"
+                sx={{
+                  fontFamily: "Times New Roman",
+                  fontWeight: 600,
+                  fontSize: { xs: "1.2rem", sm: "2rem" },
+                }}
+              >
+                HireHub
+              </Typography>
+            </Box>
 
-      {/* Mobile Drawer (Right Side) */}
-      <Drawer anchor="right" open={mobileOpen} onClose={() => setMobileOpen(false)}>
-        <Box sx={{ width: 250, padding: "20px" }}>
-          <List>
-            <ListItem button onClick={() => navigate("/listed-applied")}>
-              <ListItemText primary="Listed U Applied" />
-            </ListItem>
-            <ListItem button onClick={handleProfile}>
-              <ListItemText primary="Profile" />
-            </ListItem>
-            <ListItem button onClick={handleLogout}>
-              <ListItemText primary="Logout" />
-            </ListItem>
-          </List>
-        </Box>
-      </Drawer>
+            {/* Desktop Navigation (Hidden on Mobile) */}
+            <Box
+              sx={{ display: { xs: "none", sm: "flex" }, alignItems: "center" }}
+            >
+              <Button
+                color="inherit"
+                onClick={() => navigate("/listed-applied")}
+                sx={{
+                  marginRight: 2,
+                  fontSize: "1rem",
+                  transition: "0.3s",
+                  "&:hover": { color: "#ffeb3b" },
+                }}
+              >
+                Listed U Applied
+              </Button>
+              <IconButton color="inherit" onClick={handleMenuOpen}>
+                <AccountCircle fontSize="large" />
+              </IconButton>
+            </Box>
 
-      {/* Account Dropdown Menu */}
-      <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
-        <MenuItem onClick={handleProfile}>Profile</MenuItem>
-        <MenuItem onClick={handleLogout}>Logout</MenuItem>
-      </Menu>
+            {/* Mobile Menu Button (Shown on Mobile) */}
+            <IconButton
+              sx={{ display: { xs: "flex", sm: "none" } }}
+              color="inherit"
+              onClick={() => setMobileOpen(true)}
+            >
+              <MenuIcon fontSize="large" />
+            </IconButton>
+          </Toolbar>
+        </AppBar>
+
+        {/* Mobile Drawer (Right Side) */}
+        <Drawer
+          anchor="right"
+          open={mobileOpen}
+          onClose={() => setMobileOpen(false)}
+        >
+          <Box sx={{ width: 250, padding: "20px" }}>
+            <List>
+              <ListItem button onClick={() => navigate("/listed-applied")}>
+                <ListItemText primary="Listed U Applied" />
+              </ListItem>
+              <ListItem button onClick={handleProfile}>
+                <ListItemText primary="Profile" />
+              </ListItem>
+              <ListItem button onClick={handleLogout}>
+                <ListItemText primary="Logout" />
+              </ListItem>
+            </List>
+          </Box>
+        </Drawer>
+
+        {/* Account Dropdown Menu */}
+        <Menu
+          anchorEl={anchorEl}
+          open={Boolean(anchorEl)}
+          onClose={handleMenuClose}
+        >
+          <MenuItem onClick={handleProfile}>Profile</MenuItem>
+          <MenuItem onClick={handleLogout}>Logout</MenuItem>
+        </Menu>
         <Box
           style={{
             display: "flex",
@@ -163,39 +193,41 @@ const Userdashboard = () => {
           }}
         >
           <Box
-            className="header"
-            style={{
+            className="header-container"
+            sx={{
               display: "flex",
+              flexDirection: { xs: "column", md: "row" }, // Column on mobile, row on desktop
               alignItems: "center",
               justifyContent: "space-between",
-              flexWrap: "wrap", // Ensures responsiveness
-              width: "100%",
-              maxWidth: "1200px", // Limits the width of the container for larger screens
+              padding: { xs: "10px", md: "40px" }, // Adjust padding based on screen size
+              textAlign: { xs: "center", md: "left" },
             }}
           >
+            {/* Left Section - Heading */}
             <Box
               className="header-left"
-              style={{
-                flex: "1",
-                textAlign: "left",
-                margin: "10px",
-                fontSize: "55px", // Large font size
-                fontWeight: "bold", // Optional: makes the text bold
-                color: "#5504b3", // Text color (dark gray)
-                textShadow: "2px 2px 4px rgba(0, 0, 0, 0.2)", // Adds a subtle shadow to text
-                padding: "20px", // Optional: Adds padding inside the box
+              sx={{
+                flex: 1,
+                margin: { xs: "10px 0", md: "10px" },
+                fontSize: { xs: "32px", sm: "42px", md: "55px" }, // Responsive font size
+                fontWeight: "bold",
+                color: "#5504b3",
+                textShadow: "2px 2px 4px rgba(0, 0, 0, 0.2)",
+                padding: { xs: "10px", md: "20px" },
+                maxWidth: { xs: "100%", md: "50%" }, // Restrict width on larger screens
               }}
             >
               Find The Perfect Job That
-              <br /> You Deserved
+              <br /> You Deserve
             </Box>
 
+            {/* Right Section - Image */}
             <Box
               className="header-right"
-              style={{
+              sx={{
                 flex: "0 1 auto",
-                textAlign: "right",
-                margin: "5px",
+                textAlign: { xs: "center", md: "right" },
+                margin: { xs: "10px 0", md: "5px" },
               }}
             >
               <img
@@ -203,7 +235,9 @@ const Userdashboard = () => {
                 alt="Logo"
                 style={{
                   maxWidth: "100%",
-                  height: "500px",
+                  height: "auto",
+                  maxHeight: "500px",
+                  objectFit: "contain",
                 }}
               />
             </Box>
@@ -217,85 +251,91 @@ const Userdashboard = () => {
             gutterBottom
             textAlign="center"
             sx={{
-              fontWeight:"bold",margin:{ xs: "1.5rem", sm: "2rem", md: "2.5rem" },
+              fontWeight: "bold",
+              margin: { xs: "1.5rem", sm: "2rem", md: "2.5rem" },
               fontSize: { xs: "1.5rem", sm: "2rem", md: "2.5rem" },
             }}
           >
-            Explore By Category
+            Explore The Jobs Based On By Category
           </Typography>
           <Grid
-  container
-  spacing={4}
-  justifyContent="center" // Centers the grid
-  sx={{ marginTop: 4 }} // Adds spacing from the top
->
-  {categories.length === 0 ? (
-    <Typography variant="h6" align="center" sx={{ width: "100%" }}>
-      Loading categories...
-    </Typography>
-  ) : (
-    categories.map((category, index) => {
-      const categoryIcons = {
-        Digital: "🌐",
-        Operations: "🏗️",
-        HR: "👥",
-        Marketing: "📈",
-        "Sales Team": "💼",
-        Manager: "🏢",
-        "Software Engineer": "💻",
-      };
-
-      return (
-        <Grid item xs={12} sm={6} md={4} key={index}>
-          <Card
-            sx={{
-              background: "#6f7885", // Beautiful gradient background
-              borderRadius: "15px",
-              boxShadow: "0 4px 10px rgba(0,0,0,0.2)", // Soft shadow effect
-              transition: "transform 0.3s, box-shadow 0.3s",
-              "&:hover": {
-                transform: "scale(1.05)",
-                boxShadow: "0 6px 15px rgba(0,0,0,0.3)",
-                background: "#343d4d", // Hover color change
-                cursor: "pointer",
-              },
-            }}
-            onClick={() => handleCardClick(category._id)}
+            container
+            spacing={4}
+            justifyContent="center" 
           >
-            <CardContent sx={{ textAlign: "center", padding: "30px" }}>
+            {categories.length === 0 ? (
               <Typography
-                variant="h3"
-                sx={{
-                  fontSize: "4rem",
-                  marginBottom: "10px",
-                  display: "flex",
-                  justifyContent: "center",
-                  color: "#fff", // White icon color
-                  textShadow: "2px 2px 4px rgba(0,0,0,0.3)", // Adds text shadow for better visibility
-                }}
+                variant="h6"
+                align="center"
+                sx={{ width: "100%", fontSize: "1.5rem", color: "#333" }}
               >
-                {categoryIcons[category._id] || "🔹"}
+                Loading categories...
               </Typography>
-              <Typography
-                variant="h5"
-                sx={{
-                  fontFamily: "Poppins, sans-serif",
-                  fontWeight: "bold",
-                  color: "#fff",
-                  textTransform: "uppercase",
-                  letterSpacing: "1px",
-                  textShadow: "1px 1px 3px rgba(0,0,0,0.2)", // Light shadow effect for text
-                }}
-              >
-                {category._id}
-              </Typography>
-            </CardContent>
-          </Card>
-        </Grid>
-      );
-    })
-  )}
-</Grid>
+            ) : (
+              categories.map((category, index) => {
+                const categoryIcons = {
+                  Digital: "🌐",
+                  Operations: "🏗️",
+                  HR: "👥",
+                  Marketing: "📈",
+                  "Sales Team": "💼",
+                  Manager: "🏢",
+                  "Software Engineer": "💻",
+                };
+
+                return (
+                  <Grid item xs={12} sm={6} md={4} key={index}>
+                    <Card
+                      sx={{
+                        background: "#6f7885", // Beautiful gradient background
+                        borderRadius: "15px",
+                        boxShadow: "0 4px 10px rgba(0,0,0,0.2)", // Soft shadow effect
+                        transition: "transform 0.3s, box-shadow 0.3s",
+                        "&:hover": {
+                          transform: "scale(1.05)",
+                          boxShadow: "0 6px 15px rgba(0,0,0,0.3)",
+                          background: "#343d4d", // Hover color change
+                          cursor: "pointer",
+                        },
+                      }}
+                      onClick={() => handleCardClick(category._id)}
+                    >
+                      <CardContent
+                        sx={{ textAlign: "center", padding: "30px" }}
+                      >
+                        <Typography
+                          variant="h3"
+                          sx={{
+                            fontSize: "4rem",
+                            marginBottom: "10px",
+                            display: "flex",
+                            justifyContent: "center",
+                            color: "#fff", // White icon color
+                            textShadow: "2px 2px 4px rgba(0,0,0,0.3)", // Adds text shadow for better visibility
+                          }}
+                        >
+                          {categoryIcons[category._id] || "🔹"}
+                        </Typography>
+                        <Typography
+                          variant="h5"
+                          sx={{
+                            fontFamily: "Poppins, sans-serif",
+                            fontWeight: "bold",
+                            color: "#fff",
+                            textTransform: "uppercase",
+                            letterSpacing: "1px",
+                            textShadow: "1px 1px 3px rgba(0,0,0,0.2)", // Light shadow effect for text
+                          }}
+                        >
+                          {category._id}
+                        </Typography>
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                );
+              })
+            )}
+          </Grid>
 
           <Box>
             <Box>
@@ -304,31 +344,31 @@ const Userdashboard = () => {
                 gutterBottom
                 textAlign="center"
                 sx={{
-                  fontWeight:"bold", margin:{ xs: "1.5rem", sm: "2rem", md: "2.5rem" },
+                  fontWeight: "bold",
+                  margin: { xs: "1.5rem", sm: "2rem", md: "2.5rem" },
                   fontSize: { xs: "1.5rem", sm: "2rem", md: "2.5rem" },
                 }}
               >
                 We Help To Get The Best Job And Find A Talent
               </Typography>
-              
             </Box>
             <Box
               sx={{
                 display: "flex",
-                flexDirection: { xs: "column", sm: "row" }, 
-                alignItems: "center", 
-                gap: { xs: 2, sm: 4 }, 
+                flexDirection: { xs: "column", sm: "row" },
+                alignItems: "center",
+                gap: { xs: 2, sm: 4 },
               }}
             >
               <Box
                 sx={{
-                  textAlign: { xs: "center", sm: "left" }, 
+                  textAlign: { xs: "center", sm: "left" },
                 }}
               >
                 <Typography
                   sx={{
                     fontSize: { xs: "18px", sm: "21px" },
-                    marginTop: { xs: "20px", sm: "50px" }, 
+                    marginTop: { xs: "20px", sm: "50px" },
                   }}
                 >
                   We help you unlock opportunities by connecting job seekers
@@ -341,15 +381,14 @@ const Userdashboard = () => {
               </Box>
               <Box
                 sx={{
-                  textAlign: { xs: "center", sm: "right" }, 
+                  textAlign: { xs: "center", sm: "right" },
                 }}
               >
                 <img
                   src={job1}
                   alt="Job Opportunities"
                   style={{
-                    
-                    height: "auto", 
+                    height: "auto",
                   }}
                 />
               </Box>

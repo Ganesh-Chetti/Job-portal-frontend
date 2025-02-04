@@ -11,7 +11,10 @@ import {
   Paper,
   useMediaQuery,
   Card,
-  Drawer, List, ListItem, ListItemText 
+  Drawer,
+  List,
+  ListItem,
+  ListItemText,
 } from "@mui/material";
 import {
   LocationOn,
@@ -22,7 +25,7 @@ import {
   Instagram,
   LinkedIn,
 } from "@mui/icons-material";
-import { Menu as MenuIcon } from '@mui/icons-material';
+import { Menu as MenuIcon } from "@mui/icons-material";
 import { useTheme } from "@mui/material/styles";
 import { ArrowBack, ArrowForward } from "@mui/icons-material";
 import "slick-carousel/slick/slick.css";
@@ -31,6 +34,9 @@ import { useState } from "react";
 import { Carousel } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import HireHubImage from "../assets/HireHub.webp";
+import YoungImg from "../assets/Young.jpg";
+import Work from "../assets/Worktogether.jpg";
+import Women from "../assets/Woman-Entrepreneur.jpg";
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -38,9 +44,7 @@ const LandingPage = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  // const isMobile = window.innerWidth <= 600;
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
-
 
   const handleChange = (step) => {
     setCurrentIndex(
@@ -51,18 +55,15 @@ const LandingPage = () => {
 
   const slides = [
     {
-      image:
-        "https://images.pexels.com/photos/3184434/pexels-photo-3184434.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+      image:YoungImg,
       text: "Welcome to Hire Hub - Your Trusted Talent Partner",
     },
     {
-      image:
-        "https://images.pexels.com/photos/3184425/pexels-photo-3184425.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+      image:Work,
       text: "Find the Perfect Talent for Your Business Needs",
     },
     {
-      image:
-        "https://images.pexels.com/photos/4344860/pexels-photo-4344860.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+      image:Women,
       text: "Connecting Employers, Job Seekers, and Professionals",
     },
   ];
@@ -155,30 +156,44 @@ const LandingPage = () => {
         position="sticky"
         sx={{
           background: "linear-gradient(to right, #D4145A, #FBB03B)",
-          marginBottom: "10px",
-          marginTop: "-15px",
+          // marginBottom: "10px",
+          // marginTop: "-15px",
           // padding: isMobile ? "2px" : "6px",
         }}
       >
-        <Toolbar sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <Toolbar
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
           {/* Logo and Title */}
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <Avatar
               src={HireHubImage}
               sx={{
-                border: "2px solid white",
-                width: isMobile ? 50 : 60,
-                height: isMobile ? 50 : 60,
+                border: "0px solid white",
+                boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                borderRadius: "30%",
+                width: isMobile ? 42 : 44,
+                height: isMobile ? 42 : 44,
                 marginRight: isMobile ? "8px" : "10px",
+                transition: "0.3s ease-in-out",
+                "&:hover": {
+                  transform: "scale(1.05)",
+                  boxShadow: "0px 6px 10px rgba(0, 0, 0, 0.15)",
+                },
               }}
             />
+
             <Typography
               variant={isMobile ? "h5" : "h4"}
               sx={{
                 fontFamily: "Times New Roman",
                 fontWeight: 600,
                 flexGrow: 1,
-                fontSize: isMobile ? "1.2rem" : "1.5rem",
+                fontSize: isMobile ? "1.2rem" : "2rem",
               }}
             >
               HireHub
@@ -224,14 +239,26 @@ const LandingPage = () => {
         anchor="right"
         open={isMobileMenuOpen}
         onClose={toggleMobileMenu}
-        sx={{ display: { xs: 'block', sm: 'none' } }}
+        sx={{ display: { xs: "block", sm: "none" } }}
       >
         <Box sx={{ width: 250 }}>
           <List>
-            <ListItem button onClick={() => { navigate("/Companylogin"); toggleMobileMenu(); }}>
+            <ListItem
+              button
+              onClick={() => {
+                navigate("/Companylogin");
+                toggleMobileMenu();
+              }}
+            >
               <ListItemText primary="Become a Partner" />
             </ListItem>
-            <ListItem button onClick={() => { navigate("/Userlogin"); toggleMobileMenu(); }}>
+            <ListItem
+              button
+              onClick={() => {
+                navigate("/Userlogin");
+                toggleMobileMenu();
+              }}
+            >
               <ListItemText primary="Apply for Job" />
             </ListItem>
           </List>
@@ -239,9 +266,11 @@ const LandingPage = () => {
       </Drawer>
 
       {/* Responsive Slider */}
-      <Carousel style={{
-    marginTop: "25px", // Adjust the top margin to your preference
-  }}>
+      <Carousel
+        style={{
+          marginTop: "10px", // Adjust the top margin to your preference
+        }}
+      >
         {slides.map((s, i) => (
           <Carousel.Item key={i}>
             <img
@@ -250,7 +279,7 @@ const LandingPage = () => {
               style={{
                 width: "100%",
                 height: isMobile ? "50vh" : "80vh",
-                objectFit: "cover", // Ensures the image covers the area without distortion.
+                objectFit: "cover",
               }}
             />
             <Carousel.Caption
@@ -459,7 +488,7 @@ const LandingPage = () => {
             justifyContent: "center",
             alignItems: "center",
             gap: 2,
-            flexDirection: { xs: "column", sm: "row" }, 
+            flexDirection: { xs: "column", sm: "row" },
           }}
         >
           {/* Cards */}
@@ -480,9 +509,9 @@ const LandingPage = () => {
                     offset === 0 ? "0px 6px 20px rgba(0,0,0,0.3)" : undefined,
                   opacity: offset === 0 ? 1 : 0.6,
                   transition: "all 0.3s",
-                  mb: { xs: 3, sm: 0 }, 
-                  width: "100%", 
-                  maxWidth: { xs: "90%", sm: "300px" }, 
+                  mb: { xs: 3, sm: 0 },
+                  width: "100%",
+                  maxWidth: { xs: "90%", sm: "300px" },
                 }}
               >
                 <Avatar
@@ -544,7 +573,7 @@ const LandingPage = () => {
                 sx={{
                   fontWeight: "bold",
                   color: "#fff",
-                  fontSize: { xs: "24px", sm: "32px" }, 
+                  fontSize: { xs: "24px", sm: "32px" },
                 }}
               >
                 {stat.value}
@@ -577,7 +606,7 @@ const LandingPage = () => {
             fontWeight: "bold",
             fontFamily: "Arial, sans-serif",
             color: "#333",
-            animation: "colorChange 3s infinite", 
+            animation: "colorChange 3s infinite",
           }}
         >
           About Us
@@ -621,7 +650,7 @@ const LandingPage = () => {
           variant="body2"
           sx={{
             mt: 1,
-            fontFamily: "'Georgia', serif", 
+            fontFamily: "'Georgia', serif",
             color: "#666",
             lineHeight: "1.8",
           }}
@@ -706,7 +735,7 @@ const LandingPage = () => {
                 display: "flex",
                 justifyContent: "flex-start",
                 gap: 2,
-                flexWrap: "wrap", 
+                flexWrap: "wrap",
               }}
             >
               {[

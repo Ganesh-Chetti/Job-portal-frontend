@@ -15,7 +15,6 @@ import {
   useTheme,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import HomeIcon from "@mui/icons-material/Home";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import axios from "axios";
@@ -134,10 +133,54 @@ const CompanyloginPage = () => {
     setShowPassword((prev) => !prev);
   };
 
-  const handleGuestLogin = () => {
-    localStorage.setItem("authToken", "guest-token");
-    setSnackbar({ open: true, message: "Welcome, Guest!", severity: "success" });
-    navigate("/Companydashboard");
+  // Guest login function
+  const handleGuestLogin = async () => {
+    // Predefined guest credentials
+    const guestCredentials = {
+      companyEmail: "guest@gmail.com",
+      password: "guest123",
+    };
+
+    setIsLoading(true); // Show loading spinner during login attempt
+
+    try {
+      // Send a request to the backend for login using predefined guest credentials
+      const response = await axios.post(
+        "https://job-portal-backend-black.vercel.app/company/login",
+        guestCredentials
+      );
+
+      // If login is successful
+      if (response.status === 200) {
+        const { message, token } = response.data;
+
+        setSnackbar({ open: true, message: message, severity: "success" });
+
+        // Store the auth token in local storage
+        localStorage.setItem("authToken", token);
+
+        // Navigate to the Company dashboard after successful login
+        navigate("/Companydashboard");
+      } else {
+        setSnackbar({
+          open: true,
+          message: response.data.message || "Login failed, please try again.",
+          severity: "error",
+        });
+      }
+    } catch (error) {
+      console.error("Error during guest login:", error);
+      setSnackbar({
+        open: true,
+        message:
+          error.response?.status === 401
+            ? "Invalid email or password."
+            : "An error occurred while logging in. Please try again.",
+        severity: "error",
+      });
+    } finally {
+      setIsLoading(false); // Hide loading spinner after login attempt
+    }
   };
 
   return (
@@ -154,28 +197,34 @@ const CompanyloginPage = () => {
           }}
         >
           <Box sx={{ display: "flex", alignItems: "center" }}>
-            <IconButton color="inherit" onClick={() => navigate("/")}>
-              <HomeIcon fontSize={isSmallScreen ? "medium" : "large"} />
-            </IconButton>
-
             <Avatar
               src={HireHubImage}
               sx={{
-                border: "2px solid white",
-                width: isSmallScreen ? 40 : 60,
-                height: isSmallScreen ? 40 : 60,
-                marginRight: 2,
+                border: "0px solid white",
+                boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                borderRadius: "30%",
+                width: isSmallScreen ? 42 : 44,
+                height: isSmallScreen ? 42 : 44,
+                marginRight: isSmallScreen ? "8px" : "10px",
+                transition: "0.3s ease-in-out",
+                "&:hover": {
+                  transform: "scale(1.05)",
+                  boxShadow: "0px 6px 10px rgba(0, 0, 0, 0.15)",
+                },
               }}
+              onClick={() => navigate("/")}
             />
 
             <Typography
-              variant={isSmallScreen ? "h6" : "h4"}
+              variant={isSmallScreen ? "h5" : "h4"}
               sx={{
                 fontFamily: "'Times New Roman', serif",
-                fontWeight: 700,
+                fontSize: isSmallScreen ? "1.2rem" : "2rem",
+                fontWeight: 600,
                 color: "white",
                 letterSpacing: 1,
               }}
+              onClick={() => navigate("/")}
             >
               HireHub
             </Typography>
@@ -249,6 +298,7 @@ const CompanyloginPage = () => {
             100% {color:rgb(212, 55, 230);}
           }
         `}
+
         </style>
         <form onSubmit={handleLogin}>
           <Grid container spacing={3}>

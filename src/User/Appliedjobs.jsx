@@ -79,10 +79,28 @@ const AppliedJobsPage = () => {
         <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
           {/* Left Side - Logo */}
           <Box sx={{ display: "flex", alignItems: "center" }}>
-            <Avatar src={HireHubImage} sx={{ width: 50, height: 50, marginRight: 2 }} />
+          <Avatar
+              src={HireHubImage}
+              sx={{
+                border: "0px solid white",
+                boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                borderRadius: "30%",
+                width: {xs:42, sm : 44},
+                height: {xs:42, sm : 44},
+                marginRight: {xs:"8px",sm : "10px"},
+                transition: "0.3s ease-in-out",
+                "&:hover": {
+                  transform: "scale(1.05)",
+                  boxShadow: "0px 6px 10px rgba(0, 0, 0, 0.15)",
+                },
+              }}
+              onClick={() => navigate("/Userdashboard")}
+            />
+            
             <Typography
-              variant="h5"
-              sx={{ fontFamily: "Times New Roman", fontWeight: 600 }}
+              variant="h6"
+              sx={{ fontFamily: "Times New Roman", fontWeight: 600,fontSize: {xs:"1.2rem" ,sm: "2rem"} ,flexGrow: 1}}
+              onClick={() => navigate("/Userdashboard")}
             >
               HireHub
             </Typography>

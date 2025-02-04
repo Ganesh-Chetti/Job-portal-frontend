@@ -190,7 +190,10 @@ const CompanyRegistrationPage = () => {
 
   return (
     <>
-      <AppBar position="sticky" sx={{ background: "linear-gradient(to right, #D4145A, #FBB03B)" }}>
+      <AppBar
+        position="sticky"
+        sx={{ background: "linear-gradient(to right, #D4145A, #FBB03B)" }}
+      >
         <Toolbar
           sx={{
             display: "flex",
@@ -199,28 +202,37 @@ const CompanyRegistrationPage = () => {
           }}
         >
           <Box sx={{ display: "flex", alignItems: "center" }}>
-            <IconButton color="inherit" onClick={() => navigate("/")}>
-              <HomeIcon fontSize={isSmallScreen ? "medium" : "large"} />
-            </IconButton>
+            
 
             <Avatar
               src={HireHubImage}
               sx={{
-                border: "2px solid white",
-                width: isSmallScreen ? 40 : 60,
-                height: isSmallScreen ? 40 : 60,
-                marginRight: 2,
+                border: "0px solid white",
+                boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                borderRadius: "30%",
+                width: isSmallScreen ? 42 : 44,
+                height: isSmallScreen ? 42 : 44,
+                marginRight: isSmallScreen ? "8px" : "10px",
+                transition: "0.3s ease-in-out",
+                "&:hover": {
+                  transform: "scale(1.05)",
+                  boxShadow: "0px 6px 10px rgba(0, 0, 0, 0.15)",
+                },
               }}
+              onClick={() => navigate("/")}
             />
 
             <Typography
-              variant={isSmallScreen ? "h6" : "h4"}
+              variant={isSmallScreen ? "h5" : "h4"}
               sx={{
-                fontFamily: "'Times New Roman', serif",
-                fontWeight: 700,
+                // fontFamily: "'Times New Roman'",
+                fontSize: isSmallScreen ? "1.2rem" : "2rem",
+                fontFamily: "Times New Roman",
+                fontWeight: 600,
                 color: "white",
                 letterSpacing: 1,
               }}
+              onClick={() => navigate("/")}
             >
               HireHub
             </Typography>

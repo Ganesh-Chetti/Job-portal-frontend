@@ -80,24 +80,42 @@ const AppliedUser = () => {
            
         <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
         <Box sx={{ display: "flex", alignItems: "center" }}>
-                  <Avatar
-                    src={HireHubImage}
-                    sx={{
-                      border: "2px solid white",
-                      width: 60,
-                      height: 60,
-                      marginRight: "10px",
-                    }}
-                  />
-                  <Typography variant="h4" component="div" sx={{ fontFamily: "Times New Roman" }}>
-                    HireHub
-                  </Typography>
+        <Avatar
+              src={HireHubImage}
+              sx={{
+                border: "0px solid white",
+                boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                borderRadius: "30%",
+                width: isMobile ? 42 : 44,
+                height: isMobile ? 42 : 44,
+                marginRight: isMobile ? "8px" : "10px",
+                transition: "0.3s ease-in-out",
+                "&:hover": {
+                  transform: "scale(1.05)",
+                  boxShadow: "0px 6px 10px rgba(0, 0, 0, 0.15)",
+                },
+              }}
+              onClick={() => navigate("/Companydashboard")}
+            />
+                  <Typography
+              variant={isMobile ? "h5" : "h4"}
+              sx={{
+                fontFamily: "Times New Roman",
+                fontWeight: 600,
+                flexGrow: 1,
+                fontSize: isMobile ? "1.2rem" : "2rem",
+              }}
+              onClick={() => navigate("/Companydashboard")}
+            >
+              HireHub
+            </Typography>
                 </Box>
     {/* {Avthar} */}
     <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
             <IconButton 
             onClick={()=>navigate(-1)} 
-            color="inherit">
+            color="inherit"
+            >
               <ArrowBackIcon />
             </IconButton>
             <Avatar

@@ -16,7 +16,6 @@ import {
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
-import HomeIcon from "@mui/icons-material/Home";
 import axios from "axios";
 import Avatar from "@mui/material/Avatar";
 import HireHubImage from "../assets/HireHub.webp";
@@ -93,12 +92,52 @@ const UserLoginPage = () => {
     setSnackbar((prev) => ({ ...prev, open: false }));
 
 
-  const handleGuestLogin = () => {
-    // Directly store a dummy token for guest access
-    localStorage.setItem("token", "guest-token");
-    setSnackbar({ open: true, message: "Welcome, Guest!", severity: "success" });
-    navigate("/Userdashboard");
+  // const handleGuestLogin = () => {
+  //   // Directly store a dummy token for guest access
+  //   localStorage.setItem("token", "guest-token");
+  //   setSnackbar({ open: true, message: "Welcome, Guest!", severity: "success" });
+  //   navigate("/Userdashboard");
+  // };
+  const handleGuestLogin = async () => {
+    const guestCredentials = {
+      email: "guest@gmail.com",
+      password: "guest123",
+    };
+  
+    try {
+      const response = await axios.post(
+        "https://job-portal-backend-black.vercel.app/users/login",
+        guestCredentials
+      );
+  
+      if (response.data) {
+        const { user, token } = response.data;
+  
+        localStorage.setItem("token", token);
+  
+        setSnackbar({
+          open: true,
+          message: `Welcome, ${user.fullname || "Guest"}!`,
+          severity: "success",
+        });
+  
+        navigate("/Userdashboard");
+      } else {
+        setSnackbar({
+          open: true,
+          message: "Unexpected server response.",
+          severity: "warning",
+        });
+      }
+    } catch (error) {
+      setSnackbar({
+        open: true,
+        message: "Guest login failed. Please try again.",
+        severity: "error",
+      });
+    }
   };
+  
 
   return (
     <>
@@ -116,26 +155,34 @@ const UserLoginPage = () => {
         >
           {/* Left: Home Icon, Logo, and Title */}
           <Box sx={{ display: "flex", alignItems: "center" }}>
-            <IconButton color="inherit" onClick={() => navigate("/")}>
-              <HomeIcon fontSize={isSmallScreen ? "medium" : "large"} />
-            </IconButton>
+            
             <Avatar
               src={HireHubImage}
               sx={{
-                border: "2px solid white",
-                width: isSmallScreen ? 40 : 60,
-                height: isSmallScreen ? 40 : 60,
-                marginRight: 2,
+                border: "0px solid white",
+                boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                borderRadius: "30%",
+                width: isSmallScreen ? 42 : 44,
+                height: isSmallScreen ? 42 : 44,
+                marginRight: isSmallScreen ? "8px" : "10px",
+                transition: "0.3s ease-in-out",
+                "&:hover": {
+                  transform: "scale(1.05)",
+                  boxShadow: "0px 6px 10px rgba(0, 0, 0, 0.15)",
+                },
               }}
+              onClick={() => navigate("/")}
             />
             <Typography
-              variant={isSmallScreen ? "h6" : "h4"}
+              variant={isSmallScreen ? "h5" : "h4"}
               sx={{
                 fontFamily: "'Times New Roman', serif",
-                fontWeight: 700,
+                fontWeight: 600,
+                fontSize: isSmallScreen ? "1.2rem" : "2rem",
                 color: "white",
                 letterSpacing: 1,
               }}
+              onClick={() => navigate("/")}
             >
               HireHub
             </Typography>

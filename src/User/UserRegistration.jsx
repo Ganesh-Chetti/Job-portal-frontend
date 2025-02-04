@@ -113,26 +113,33 @@ const UserRegistrationForm = () => {
   <Toolbar sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
     {/* Left: Home Icon, Logo, and Title */}
     <Box sx={{ display: "flex", alignItems: "center" }}>
-      <IconButton color="inherit" onClick={() => navigate("/")}>
-        <HomeIcon fontSize={isSmallScreen ? "medium" : "large"} />
-      </IconButton>
       <Avatar
-        src={HireHubImage}
-        sx={{
-          border: "2px solid white",
-          width: isSmallScreen ? 40 : 60,
-          height: isSmallScreen ? 40 : 60,
-          marginRight: 2,
-        }}
-      />
+              src={HireHubImage}
+              sx={{
+                border: "0px solid white",
+                boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                borderRadius: "30%",
+                width: isSmallScreen ? 42 : 44,
+                height: isSmallScreen ? 42 : 44,
+                marginRight: isSmallScreen ? "8px" : "10px",
+                transition: "0.3s ease-in-out",
+                "&:hover": {
+                  transform: "scale(1.05)",
+                  boxShadow: "0px 6px 10px rgba(0, 0, 0, 0.15)",
+                },
+              }}
+              onClick={() => navigate("/")}
+            />
       <Typography
-        variant={isSmallScreen ? "h6" : "h4"}
+        variant={isSmallScreen ? "h5" : "h4"}
         sx={{
           fontFamily: "'Times New Roman', serif",
-          fontWeight: 700,
+          fontWeight: 600,
+          fontSize: isSmallScreen ? "1.2rem" : "2rem",
           color: "white",
           letterSpacing: 1,
         }}
+        onClick={() => navigate("/")}
       >
         HireHub
       </Typography>
